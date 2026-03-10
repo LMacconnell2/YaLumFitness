@@ -1,0 +1,202 @@
+This is a robust requirements document. The combination of Astro for performance and Svelte 5 for state-driven interactivity is a modern, high-performance choice, especially given Svelte 5's new "runes" system for reactivity.
+
+Below is the OpenAPI 3.0.0 specification in YAML format. This covers your authentication, user management, workouts, nutrition, and analytics endpoints as defined in your functional requirements.
+
+YAML
+openapi: 3.0.0
+info:
+  title: YaLum Fitness Tracker API
+  description: API for a comprehensive fitness tracking application with AI-generated plans.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/api
+    description: Local development server
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    User:
+      type: object
+      properties:
+        _id: { type: string, example: "60d5ec18"}
+        email: { type: string, format: email }
+        firstName: { type: string }
+        lastName: { type: string }
+    
+    Workout:
+      type: object
+      properties:
+        _id: { type: string }
+        date: { type: string, format: date-time }
+        duration: { type: integer, description: "Minutes" }
+        workoutType:
+          type: string
+          enum: [cardio, strength, flexibility, mixed]
+        exercises:
+          type: array
+          items: { $ref: '#/components/schemas/Exercise' }
+        notes: { type: string }
+
+    Exercise:
+      type: object
+      properties:
+        name: { type: string }
+        weight: { type: number, nullable: true }
+        sets: { type: integer }
+        reps: { type: integer }
+        intensity: { type: integer, minimum: 1, maximum: 10 }
+
+    Meal:
+      type: object
+      properties:
+        date: { type: string, format: date-time }
+        totalCalories: { type: number }
+        totalProtein: { type: number }
+        totalCarbs: { type: number }
+        totalFats: { type: number }
+        foodItems:
+          type: array
+          items:
+            type: object
+            properties:
+              name: { type: string }
+              calories: { type: number }
+
+paths:
+  # --- AUTHENTICATION ---
+  /auth/register:
+    post:
+      summary: Register a new user
+      tags: [Authentication]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password, firstName, lastName]
+              properties:
+                email: { type: string }
+                password: { type: string }
+                firstName: { type: string }
+                lastName: { type: string }
+      responses:
+        201:
+          description: User created successfully
+  
+  /auth/login:
+    post:
+      summary: Authenticate user and return token
+      tags: [Authentication]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email: { type: string }
+                password: { type: string }
+      responses:
+        200:
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token: { type: string }
+
+  # --- WORKOUTS ---
+  /workouts:
+    get:
+      summary: Get user workouts
+      tags: [Workouts]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: query
+          required: true
+          schema: { type: string }
+      responses:
+        200:
+          description: List of workouts
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Workout' }
+    post:
+      summary: Log a new workout
+      tags: [Workouts]
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Workout' }
+      responses:
+        201:
+          description: Workout logged
+
+  # --- NUTRITION ---
+  /meals:
+    get:
+      summary: Get user meals
+      tags: [Nutrition]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: query
+          required: true
+          schema: { type: string }
+      responses:
+        200:
+          description: List of meals
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Meal' }
+    post:
+      summary: Log a meal
+      tags: [Nutrition]
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Meal' }
+      responses:
+        201:
+          description: Meal logged
+
+  # --- ANALYTICS ---
+  /analytics/progress/{userId}:
+    get:
+      summary: Get adherence metrics
+      tags: [Analytics]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        200:
+          description: Progress data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  workoutAdherence: { type: number, example: 85.5 }
+                  nutritionAdherence: { type: number, example: 90.0 }
