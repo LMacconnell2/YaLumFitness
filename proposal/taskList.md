@@ -73,14 +73,14 @@
 - [ ] **Task 3.2** - Implement meal logging endpoint (`POST /api/meals`) (1.5h)
 - [ ] **Task 3.3** - Implement meal retrieval with date filtering (`GET /api/meals/:userId`) (1.5h)
 - [ ] **Task 3.4** - Implement meal update/delete endpoints (1.5h)
-- [ ] **Task 3.5** - Create common foods database with search functionality (1.5h)
+- [ ] **Task 3.5** - Implement meal search functionality (1.5h)
 - [ ] **Task 3.6** - Implement food search endpoint (`GET /api/foods/search`) (1.5h)
 - [ ] **Task 3.7** - Implement custom food creation endpoint (1.5h)
 
 ### Nutrition Tracking Frontend
 
 - [ ] **Task 3.8** - Create Meal logging form component (Svelte) (1.5h)
-- [ ] **Task 3.9** - Create food search component with autocomplete (Svelte) (1.5h)
+- [ ] **Task 3.9** - Create Meal search component with autocomplete (Svelte) (1.5h)
 - [ ] **Task 3.10** - Build Nutrition page with daily/weekly summaries (1.5h)
 
 ### Analytics & Progress
