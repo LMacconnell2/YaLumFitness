@@ -12,6 +12,10 @@
 - **Styling:** CSS modules and plain CSS (no Tailwind)
 - **Language:** TypeScript across the stack
 
+### 1.1 Team Members
+- Logan MacConnell
+- Hyrum Bullock
+- Yat Lam
 ---
 
 ## 2. Target Audience

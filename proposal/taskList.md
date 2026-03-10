@@ -23,7 +23,7 @@
 
 ### Testing & Error Handling
 - [ ] **Task 1.14** - Implement error handling middleware on backend (1.5h)
-- [ ] **Task 1.15** - Write unit tests for auth endpoints (1.5h)
+- [ ] **Task 1.15** - Write unit tests for auth endpoints (1.5h) (Also use ThunderClient)
 
 ---
 
@@ -33,9 +33,9 @@
 - [ ] **Task 2.1** - Create Survey collection schema and models (1.5h)
 - [ ] **Task 2.2** - Implement survey submission endpoint (`POST /api/surveys`) (1.5h)
 - [ ] **Task 2.3** - Implement survey retrieval endpoint (`GET /api/surveys/:userId`) (1.5h)
-- [ ] **Task 2.4** - Create Plan collection schema and basic models (1.5h)
-- [ ] **Task 2.5** - Implement plan generation endpoint with mock AI logic (1.5h)
-- [ ] **Task 2.6** - Implement plan retrieval endpoint (`GET /api/plans/:userId`) (1.5h)
+- [ ] **Task 2.4** - Create Fitness Plan collection schema and basic models (1.5h)
+- [ ] **Task 2.5** - Implement fitness plan generation endpoint with mock AI logic (1.5h)
+- [ ] **Task 2.6** - Implement fitness plan retrieval endpoint (`GET /api/plans/:userId`) (1.5h)
 
 ### Frontend Survey & Dashboard
 - [ ] **Task 2.7** - Create multi-step Survey form component (Svelte) (1.5h)
