@@ -1,6 +1,8 @@
-  header {
-    background-color: #333;
-    color: white;
+@import './variables.css';
+
+header {
+    background-color: var(--tertiary-color);
+    color: var(--accent-color);
     padding: 1em 2em;
     display: flex;
     align-items: center;
@@ -15,7 +17,7 @@
 
       li {
         a {
-          color: white;
+          color: var(--accent-color);
           text-decoration: none;
           opacity: 0.8;
           transition: opacity 0.2s;
