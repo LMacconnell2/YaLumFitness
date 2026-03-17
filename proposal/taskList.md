@@ -4,8 +4,8 @@
 
 ### Backend Setup & Database
 
-- [ ] **Task 1.1** - Set up Node.js/Express project structure with TypeScript configuration (1.5h)
-- [ ] **Task 1.2** - Configure MongoDB connection and implement database utilities (1.5h)
+- [x] **Task 1.1** - Set up Node.js/Express project structure with TypeScript configuration (1.5h)
+- [ ] **Task 1.2** - Configure MongoDB connection and implement database utilities (1.5h) 
 - [ ] **Task 1.3** - Create User collection schema and models (1.5h)
 
 ### Authentication API
@@ -13,16 +13,16 @@
 - [ ] **Task 1.4** - Implement user registration endpoint with bcrypt password hashing (1.5h)
 - [ ] **Task 1.5** - Implement user login endpoint with JWT token generation (1.5h)
 - [ ] **Task 1.6** - Create authentication middleware for protected routes (1.5h)
-- [ ] **Task 1.7** - Implement logout and token refresh endpoints (1.5h)
+- [ ] **Task 1.7** - Implement logout and token refresh endpoints (1.5h) 
 
 ### Frontend Setup & Auth Pages
 
-- [ ] **Task 1.8** - Set up Astro project structure with Svelte 5 integration (1.5h)
-- [ ] **Task 1.9** - Create global CSS variables and base styling (1.5h)
-- [ ] **Task 1.10** - Build Registration page layout (Astro) with Svelte form component (1.5h)
-- [ ] **Task 1.11** - Build Login page layout (Astro) with Svelte form component (1.5h)
-- [ ] **Task 1.12** - Create Navigation component with authentication state management (1.5h)
-- [ ] **Task 1.13** - Build Landing/Home page with navigation (1.5h)
+- [x] **Task 1.8** - Set up Astro project structure with Svelte 5 integration (1.5h)
+- [x] **Task 1.9** - Create global CSS variables and base styling (1.5h)
+- [x] **Task 1.10** - Build Registration page layout (Astro) with Svelte form component (1.5h)
+- [x] **Task 1.11** - Build Login page layout (Astro) with Svelte form component (1.5h)
+- [x] **Task 1.12** - Create Navigation component with authentication state management (1.5h)
+- [x] **Task 1.13** - Build Landing/Home page with navigation (1.5h)
 
 ### Testing & Error Handling
 
