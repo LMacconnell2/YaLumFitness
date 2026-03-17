@@ -2,25 +2,47 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
+  "main": "dist/server",
   "type": "module",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "test": "vitest --typecheck",
+    "test:ci": "vitest run",
+    "start": "node --experimental-strip-types src/server.ts",
+    "build": "npx tsc",
+    "dev": "tsx --watch --env-file=.env src/server.ts",
+    "init-db": "node --env-file=.env src/database/init-db.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.17.1",
-  "dependencies": {
-    "express": "^5.2.1"
-  },
   "devDependencies": {
     "@types/express": "^5.0.6",
-    "@types/node": "^25.5.0",
-    "nodemon": "^3.1.14",
+    "@types/json-schema": "^7.0.15",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/morgan": "^1.9.10",
+    "@types/node": "^22.19.15",
+    "dotenv": "^17.3.1",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
-  }
+    "typescript": "^5.9.3",
+    "nodemon": "^3.1.14",
+    "vite": "^7.3.1",
+    "vitest": "^4.1.0"
+  },
+  "dependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/swagger-ui-express": "^4.1.8",
+    "ajv": "^8.18.0",
+    "ajv-formats": "^3.0.1",
+    "ajv-keywords": "^5.1.0",
+    "argon2": "^0.44.0",
+    "cor": "^0.0.0",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.3.1",
+    "helmet": "^8.1.0",
+    "mongodb": "^7.1.0",
+    "morgan": "^1.10.1",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "packageManager": "pnpm@10.6.1+sha512.40ee09af407fa9fbb5fbfb8e1cb40fbb74c0af0c3e10e9224d7b53c7658528615b2c92450e74cfad91e3a2dcafe3ce4050d80bda71d757756d2ce2b66213e9a3"
 }
