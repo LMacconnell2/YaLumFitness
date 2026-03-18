@@ -34,6 +34,7 @@
 ## 3. Core Features & Functional Requirements
 
 ### 3.1 User Management
+
 - **FR-1.1:** User registration and account creation
 - **FR-1.2:** User authentication and session management
 - **FR-1.3:** User profile management (name, email, basic info)
