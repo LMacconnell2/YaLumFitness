@@ -4,8 +4,10 @@ import http from "http";
 import { connectDB } from './database/database.ts';
 
 
+
 dotenv.config();
 const app = express();
+app.use()
 
 const HOST = "localhost";
 const PORT = process.env.PORT || 3000;
