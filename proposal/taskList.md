@@ -5,7 +5,7 @@
 ### Backend Setup & Database
 
 - [x] **Task 1.1** - Set up Node.js/Express project structure with TypeScript configuration (1.5h)
-- [ ] **Task 1.2** - Configure MongoDB connection and implement database utilities (1.5h) 
+- [ ] **Task 1.2** - Configure MongoDB connection and implement database utilities (1.5h)
 - [ ] **Task 1.3** - Create User collection schema and models (1.5h)
 
 ### Authentication API
@@ -13,7 +13,7 @@
 - [ ] **Task 1.4** - Implement user registration endpoint with bcrypt password hashing (1.5h)
 - [ ] **Task 1.5** - Implement user login endpoint with JWT token generation (1.5h)
 - [ ] **Task 1.6** - Create authentication middleware for protected routes (1.5h)
-- [ ] **Task 1.7** - Implement logout and token refresh endpoints (1.5h) 
+- [ ] **Task 1.7** - Implement logout and token refresh endpoints (1.5h)
 
 ### Frontend Setup & Auth Pages
 

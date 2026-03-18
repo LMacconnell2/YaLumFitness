@@ -22,9 +22,9 @@
     "@types/morgan": "^1.9.10",
     "@types/node": "^22.19.15",
     "dotenv": "^17.3.1",
+    "nodemon": "^3.1.14",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
-    "nodemon": "^3.1.14",
     "vite": "^7.3.1",
     "vitest": "^4.1.0"
   },
@@ -35,6 +35,7 @@
     "ajv-formats": "^3.0.1",
     "ajv-keywords": "^5.1.0",
     "argon2": "^0.44.0",
+    "better-auth": "^1.5.5",
     "cor": "^0.0.0",
     "cors": "^2.8.6",
     "express": "^5.2.1",

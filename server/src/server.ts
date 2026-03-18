@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import http from "http";
-import { connectDB } from './database/database.js';
+import { connectDB } from './database/database.ts';
 
 
 dotenv.config();
