@@ -25,3 +25,23 @@ router.post('/register', async (req: Request, res: Response) => {
   // TODO: return a success response (e.g. 201 Created) or an error response if something goes wrong
   res.status(201).json({ message: 'User registered successfully' });
 })
+
+router.post('/login', async (req: Request, res: Response) => {
+  // get the user details from the request body
+  const { email, password } = req.body;
+  // check if user exists
+  const user = await getUserByEmail(email);
+  if (!user) {
+    return res.status(400).json({ error: 'Invalid email or password' });
+  }
+  // verify the password
+  const authenticated = await auth.options.password.verify(password, user.password);
+  if (!authenticated) {
+    return res.status(400).json({ error: 'Invalid email or password' });
+  }
+  // TODO: generate a JWT token or session for the authenticated user
+  
+  // TODO: save the token to local storage or send it as a cookie to the client
+
+  res.status(200).json({ message: 'Login successful' });
+});
