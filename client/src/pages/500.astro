@@ -1,0 +1,16 @@
+---
+import Layout from '../layouts/Layout.astro';
+interface Props {
+    error: unknown;
+}
+
+const { error } = Astro.props;
+---
+<Layout title="Server Error">
+    <h1 class="error-num">500: Server Error</h1>
+    <p class="error-desc">{error instanceof Error ? error.message : 'An unexpected error occurred'}</p>
+    <a class="error-home" href="/">Go Home</a>
+</Layout>
+<style>
+
+</style>
