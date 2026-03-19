@@ -5,7 +5,7 @@
 ### Backend Setup & Database
 
 - [x] **Task 1.1** - Set up Node.js/Express project structure with TypeScript configuration (1.5h)
-- [ ] **Task 1.2** - Configure MongoDB connection and implement database utilities (1.5h)
+- [x] **Task 1.2** - Configure MongoDB connection and implement database utilities (1.5h)
 - [ ] **Task 1.3** - Create User collection schema and models (1.5h)
 
 ### Authentication API
