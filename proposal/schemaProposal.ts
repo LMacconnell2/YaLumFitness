@@ -30,7 +30,7 @@ interface Plan {
   weeklySchedule: {
     day: string;        // "Monday", "Tuesday"
     activityType: string;
-    exercises: string[]; // Names of suggested exercises
+    exercises: Exercise[]; // Names of suggested exercises
   }[];
   targetMetrics: {
     dailyCalories: number;
@@ -41,20 +41,26 @@ interface Plan {
   expiresAt: Date;      // Optional: For plan regeneration logic
 }
 
+interface Exercise {
+  _id: Object;
+  name: string;           // e.g., "Barbell Bench Press"
+  category: 'strength' | 'cardio' | 'flexibility';
+  primaryMuscleGroup: string; 
+  secondaryMuscles: string[];
+  equipmentRequired: string[]; // matches Survey.equipmentAccess
+  instructions: string[];      // Step-by-step guide
+  difficulty: 'beginner' | 'intermediate' | 'advanced';
+}
+
 interface Workout {
   _id: Object;
   userId: Object;     // Index: Compound { userId: 1, date: -1 }
+  name: string;
   date: Date;
   duration: number;     // Minutes
   workoutType: string;
   notes: string;
-  exercises: {
-    name: string;
-    weight: number | null;
-    sets: number;
-    reps: number;
-    intensity: number; // 1-10
-  }[];
+  exercises: Exercise[];
 }
 
 interface Meal {

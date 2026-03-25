@@ -42,6 +42,17 @@ export interface Plan {
   expiresAt: Date;      // Optional: For plan regeneration logic
 }
 
+export interface Exercise {
+  _id: Object;
+  name: string;           // e.g., "Barbell Bench Press"
+  category: 'strength' | 'cardio' | 'flexibility';
+  primaryMuscleGroup: string; 
+  secondaryMuscles: string[];
+  equipmentRequired: string[]; // matches Survey.equipmentAccess
+  instructions: string[];      // Step-by-step guide
+  difficulty: 'beginner' | 'intermediate' | 'advanced';
+}
+
 export interface Workout {
   _id: Object;
   userId: Object;     // Index: Compound { userId: 1, date: -1 }
