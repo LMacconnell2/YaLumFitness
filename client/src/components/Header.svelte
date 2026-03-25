@@ -13,6 +13,3 @@
   </nav>
 </header>
 
-<style>
-
-</style>

@@ -1,4 +1,5 @@
 @import "./variables.css";
+@import "./sidebar.css";
 @import "./header.css";
 
 
@@ -8,6 +9,10 @@ body {
   color: var(--accent-color);
 }
 
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+}
 
 .auth-form {
   background-color: var(--secondary-color);
