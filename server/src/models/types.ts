@@ -56,6 +56,7 @@ export interface Exercise {
 export interface Workout {
   _id: Object;
   userId: Object;     // Index: Compound { userId: 1, date: -1 }
+  name: String;
   date: Date;
   duration: number;     // Minutes
   workoutType: string;

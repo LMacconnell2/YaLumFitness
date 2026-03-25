@@ -24,6 +24,7 @@ async function getWorkoutById(id: Object): Promise<Workout | null> {
 async function createWorkout(workout: Workout) {
   const result = await mongodb.getDb().collection<Workout>('workouts').insertOne(workout);
   console.log(result);
+  return result;
 }
 
 export {getWorkoutsByUser, getWorkoutById, createWorkout};
