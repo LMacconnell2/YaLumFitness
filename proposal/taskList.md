@@ -45,8 +45,8 @@
 
 ### Frontend Survey & Dashboard
 
-- [ ] **Task 2.7** - Create multi-step Survey form component (Svelte) (1.5h)
-- [ ] **Task 2.8** - Build Survey page layout (Astro) with form (1.5h)
+- [x] **Task 2.7** - Create multi-step Survey form component (Svelte) (1.5h)
+- [x] **Task 2.8** - Build Survey page layout (Astro) with form (1.5h)
 - [ ] **Task 2.9** - Build Plan Details page showing generated plan (1.5h)
 - [ ] **Task 2.10** - Create basic Dashboard page layout with today's summary (1.5h)
 
