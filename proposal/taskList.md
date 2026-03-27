@@ -53,8 +53,8 @@
 ### Workout Tracking API
 
 - [x] **Task 2.11** - Create Workout and Exercise collection schemas/models (1.5h)
-- [ ] **Task 2.12** - Implement workout logging endpoint (`POST /api/workouts`) (1.5h)
-- [ ] **Task 2.13** - Implement workout retrieval with filtering (`GET /api/workouts/:userId`) (1.5h)
+- [x] **Task 2.12** - Implement workout logging endpoint (`POST /api/workouts`) (1.5h)
+- [x] **Task 2.13** - Implement workout retrieval with filtering (`GET /api/workouts/:userId`) (1.5h)
 - [ ] **Task 2.14** - Implement exercise logging within workouts (`POST /api/exercises`) (1.5h)
 - [ ] **Task 2.15** - Implement workout update/delete endpoints (1.5h)
 
