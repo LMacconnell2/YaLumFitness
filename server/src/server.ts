@@ -2,12 +2,13 @@ import dotenv from "dotenv";
 import express from "express";
 import http from "http";
 import { connectDB } from './database/database.ts';
-
+import routes from './routes/index.mts'
 
 
 dotenv.config();
 const app = express();
-app.use()
+app.use(express.json());
+app.use('/api/v1/', routes);
 
 const HOST = "localhost";
 const PORT = process.env.PORT || 3000;
