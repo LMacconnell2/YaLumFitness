@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
   try {
     const {name, duration, workoutType, notes, exercises} = req.body;
     // TODO: get the session and the user id in it
-    const userId = new ObjectId("65df12341234123412341235")
+    const userId = new ObjectId('65df12341234123412341235')
 
     /*
     WORKOUT OBJECT EXAMPLE:
@@ -30,12 +30,12 @@ router.post('/', async (req, res) => {
       notes: 'Let's get big arms baby',
       exercises: [
         {
-          "exerciseId": "65f1a2b3c4d5e6f7a8b90101",
-          "name": "Barbell Bench Press",
-          "weight": 135,
-          "sets": 3,
-          "reps": 10,
-          "intensity": 8
+          'exerciseId': '65f1a2b3c4d5e6f7a8b90101',
+          'name': 'Barbell Bench Press',
+          'weight': 135,
+          'sets': 3,
+          'reps': 10,
+          'intensity': 8
         }
       ];
     }
@@ -54,12 +54,12 @@ router.post('/', async (req, res) => {
 
     await createWorkout(workout);
 
-    res.status(201).json("Workout logged successfully")
+    res.status(201).json('Workout logged successfully')
   } catch (err: Error) {
     if (err.code == 121) {
-      return res.status(400).json("Failed to log workout")
+      return res.status(400).json('Failed to log workout')
     }
-    res.status(500).json("An internal server error occurred.");
+    res.status(500).json('An internal server error occurred.');
   }
 })
 
@@ -67,7 +67,7 @@ router.get('/:userId', async (req, res) => {
   const userId = req.params.userId;
 
   if (!ObjectId.isValid(userId)) {
-    return res.status(400).json("Invalid id requested");
+    return res.status(400).json('Invalid id requested');
   }
 
   // skip for now because there is no user in the database yet
@@ -87,9 +87,10 @@ router.get('/:userId', async (req, res) => {
     res.status(201).json(`Found workouts from user ${userId} successfully`)
 
   } catch (err) {
-    res.status(500).json("An internal server error occurred.")
+    res.status(500).json('An internal server error occurred.')
   }
 
 })
+
 
 export default router;

@@ -45,7 +45,7 @@ export interface Plan {
 }
 
 export interface Exercise {
-  _id: string;
+  _id: ObjectId;
   name: string;           // e.g., "Barbell Bench Press"
   category: 'strength' | 'cardio' | 'flexibility';
   primaryMuscleGroup: string; 

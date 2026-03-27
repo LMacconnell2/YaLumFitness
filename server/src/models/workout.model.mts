@@ -1,6 +1,6 @@
-import * as mongodb from "../database/database.ts";
-import { ObjectId } from "mongodb";
-import type { Exercise, Workout } from "./types.ts";
+import * as mongodb from '../database/database.ts';
+import { ObjectId } from 'mongodb';
+import type { Exercise, Workout } from './types.ts';
 
 async function getWorkoutsByUserId(userId: string): Promise<Workout[] | null> {
   const data = await mongodb.getDb().collection<Workout>('workouts').find({
