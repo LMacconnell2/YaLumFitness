@@ -1,6 +1,8 @@
+import { ObjectId } from "mongodb";
+
 
 export interface User {
-  _id: Object;
+  _id: ObjectId;
   email: string;        // Index: Unique
   passwordHash: string;
   firstName: string;
@@ -54,7 +56,7 @@ export interface Exercise {
 }
 
 export interface Workout {
-  _id: Object;
+  _id: ObjectId;
   userId: Object;     // Index: Compound { userId: 1, date: -1 }
   name: String;
   date: Date;

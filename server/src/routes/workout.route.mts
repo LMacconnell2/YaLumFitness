@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import type { Workout } from '../models/types.ts'
-import { createWorkout } from '../models/workout.model.mts';
+import { createWorkout, getWorkoutsByUserId } from '../models/workout.model.mts';
 import { ObjectId } from 'mongodb';
+import { getUserById } from '../models/user.model.mts';
 
 interface exercisesReport {
   exerciseId: ObjectId;
@@ -18,7 +19,7 @@ router.post('/', async (req, res) => {
   try {
     const {name, duration, workoutType, notes, exercises} = req.body;
     // TODO: get the session and the user id in it
-    const userId = new ObjectId("65df12341234123412341234")
+    const userId = new ObjectId("65df12341234123412341235")
 
     /*
     WORKOUT OBJECT EXAMPLE:
@@ -60,6 +61,35 @@ router.post('/', async (req, res) => {
     }
     res.status(500).json("An internal server error occurred.");
   }
+})
+
+router.get('/:userId', async (req, res) => {
+  const userId = req.params.userId;
+
+  if (!ObjectId.isValid(userId)) {
+    return res.status(400).json("Invalid id requested");
+  }
+
+  // skip for now because there is no user in the database yet
+  // const user = await getUserById(userId);
+
+  // if (!user) {
+  //   return res.status(400).json(`User ${userId} doesn't exist...`)
+  // }
+
+  try {
+    const workouts = await getWorkoutsByUserId(userId);
+    
+    if (!workouts) {
+      return res.status(400).json(`Fail to get workouts from user ${userId}`)
+    }
+
+    res.status(201).json(`Found workouts from user ${userId} successfully`)
+
+  } catch (err) {
+    res.status(500).json("An internal server error occurred.")
+  }
+
 })
 
 export default router;
