@@ -55,12 +55,18 @@ interface Exercise {
 interface Workout {
   _id: Object;
   userId: Object;     // Index: Compound { userId: 1, date: -1 }
-  name: string;
+  name: String;
   date: Date;
   duration: number;     // Minutes
   workoutType: string;
   notes: string;
-  exercises: Exercise[];
+  exercises: {
+    name: string;
+    weight: number | null;
+    sets: number;
+    reps: number;
+    intensity: number; // 1-10
+  }[];
 }
 
 interface Meal {

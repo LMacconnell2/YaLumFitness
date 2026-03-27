@@ -43,7 +43,7 @@ export interface Plan {
 }
 
 export interface Exercise {
-  _id: Object;
+  _id: string;
   name: string;           // e.g., "Barbell Bench Press"
   category: 'strength' | 'cardio' | 'flexibility';
   primaryMuscleGroup: string; 
@@ -62,6 +62,7 @@ export interface Workout {
   workoutType: string;
   notes: string;
   exercises: {
+    exerciseId: string;
     name: string;
     weight: number | null;
     sets: number;
