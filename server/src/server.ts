@@ -2,6 +2,8 @@ import dotenv from "dotenv";
 import express from "express";
 import http from "http";
 import { connectDB } from './database/database.ts';
+import { auth } from "./services/auth.service.mts";
+import surveyRoutes from "./routes/surveyRoutes.ts";
 
 
 
@@ -21,7 +23,9 @@ async function bootstrap() {
 }
 bootstrap();
 
-
+app.use("/api/auth", auth.handler);
+app.use("/api/survey", surveyRoutes);
+app.use(express.json);
 
 const server = http.createServer((req, res) => {
   const { method, url } = req;
