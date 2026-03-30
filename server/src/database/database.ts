@@ -17,11 +17,3 @@ export async function connectDB(): Promise<Db> {
 
   return db;
 }
-
-//Modified getDb so that it cannot be called until connectDB is initialized.
-export const getDb = (): Db => {
-  if (!db) {
-    throw new Error("Database not initialized. Call connectDB first.");
-  }
-  return db;
-};

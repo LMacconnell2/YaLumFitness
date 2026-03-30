@@ -6,14 +6,14 @@
 
 - [x] **Task 1.1** - Set up Node.js/Express project structure with TypeScript configuration (1.5h)
 - [x] **Task 1.2** - Configure MongoDB connection and implement database utilities (1.5h)
-- [ ] **Task 1.3** - Create User collection schema and models (1.5h)
+- [x] **Task 1.3** - Create User collection schema and models (1.5h)
 
 ### Authentication API
 
-- [ ] **Task 1.4** - Implement user registration endpoint with better-auth (1.5h)
-- [ ] **Task 1.5** - Implement user login endpoint with better-auth (1.5h)
-- [ ] **Task 1.6** - Create authentication middleware for protected routes (1.5h)
-- [ ] **Task 1.7** - Implement logout and token refresh endpoints (1.5h)
+- [x] **Task 1.4** - Implement user registration endpoint with better-auth (1.5h)
+- [x] **Task 1.5** - Implement user login endpoint with better-auth (1.5h)
+- [x] **Task 1.6** - Create authentication middleware for protected routes (1.5h)
+- [x] **Task 1.7** - Implement logout and token refresh endpoints (1.5h)
 
 ### Frontend Setup & Auth Pages
 
@@ -26,8 +26,8 @@
 
 ### Testing & Error Handling
 
-- [ ] **Task 1.14** - Implement error handling middleware on backend (1.5h)
-- [ ] **Task 1.15** - Implement Error handling on the fontend (1.5h)
+- [x] **Task 1.14** - Implement error handling middleware on backend (1.5h)
+- [x] **Task 1.15** - Implement Error handling on the fontend (1.5h)
 - [ ] **Task 1.16** - Write unit tests for auth endpoints (1.5h) (Also use ThunderClient)
 
 ---
@@ -37,8 +37,8 @@
 ### Survey & Plan Generation
 
 - [ ] **Task 2.1** - Create Survey collection schema and models (1.5h)
-- [ ] **Task 2.2** - Implement survey submission endpoint (`POST /api/surveys`) (1.5h)
-- [ ] **Task 2.3** - Implement survey retrieval endpoint (`GET /api/surveys/:userId`) (1.5h)
+- [x] **Task 2.2** - Implement survey submission endpoint (`POST /api/surveys`) (1.5h)
+- [x] **Task 2.3** - Implement survey retrieval endpoint (`GET /api/surveys/:userId`) (1.5h)
 - [ ] **Task 2.4** - Create Fitness Plan collection schema and basic models (1.5h)
 - [ ] **Task 2.5** - Implement fitness plan generation endpoint with mock AI logic (1.5h)
 - [ ] **Task 2.6** - Implement fitness plan retrieval endpoint (`GET /api/plans/:userId`) (1.5h)

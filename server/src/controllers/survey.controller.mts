@@ -1,7 +1,7 @@
 //survey.controller.mts
 import type { Request, Response } from "express";
 import * as SurveyService from "../services/survey.service.mts";
-import { getDb } from "../database/database.ts";
+import { connectDB } from "../database/database.ts";
 
 type IdParams = {
   id: string;
@@ -9,7 +9,7 @@ type IdParams = {
 
 export async function newSurvey(req: Request, res: Response) {
   try {
-    const db = getDb();
+    const db = await connectDB();
 
     const survey = await SurveyService.createSurvey(db, {
       ...req.body,
@@ -25,7 +25,7 @@ export async function newSurvey(req: Request, res: Response) {
 
 export async function getCurrentUserSurvey(req: Request, res: Response) {
   try {
-    const db = getDb();
+    const db = await connectDB();
     if (!req.user) {
       return res.status(401).json({ error: "Unauthorized" });
     }
@@ -45,7 +45,7 @@ export async function getCurrentUserSurvey(req: Request, res: Response) {
 export async function getSurveyById(req: Request<IdParams>, res: Response) {
 
   try {
-    const db = getDb();
+    const db = await connectDB();
     if (!req.user) {
       return res.status(401).json({ error: "Unauthorized" });
     }
@@ -68,7 +68,7 @@ export async function getSurveyById(req: Request<IdParams>, res: Response) {
 
 export async function deleteSurveyById(req: Request<IdParams>, res: Response) {
   try {
-    const db = getDb();
+    const db = await connectDB();
     if (!req.user) {
       return res.status(401).json({ error: "Unauthorized" });
     }
@@ -91,7 +91,7 @@ export async function deleteSurveyById(req: Request<IdParams>, res: Response) {
 
 export async function updateSurveyById(req: Request<IdParams>, res: Response) {
   try {
-    const db = getDb();
+    const db = await connectDB();
     if (!req.user) {
       return res.status(401).json({ error: "Unauthorized" });
     }
@@ -115,7 +115,7 @@ export async function updateSurveyById(req: Request<IdParams>, res: Response) {
 
 export async function getSurveyResults(req: Request, res: Response) {
   try {
-    const db = getDb();
+    const db = await connectDB();
 
     const results = await SurveyService.searchSurveys(
       db,
