@@ -60,7 +60,7 @@
 
 ### Workout Tracking Frontend
 
-- [ ] **Task 2.16** - Create Workout logging form component (Svelte) (1.5h)
+- [x] **Task 2.16** - Create Workout logging form component (Svelte) (1.5h)
 - [ ] **Task 2.17** - Build Workouts page with history list (1.5h)
 - [ ] **Task 2.18** - Create exercise quick-add component (Svelte) (1.5h)
 
