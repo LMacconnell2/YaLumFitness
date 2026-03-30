@@ -19,7 +19,7 @@ app.use(cors({
     credentials: true
 }));
 
-app.all("/api/auth/*splat", toNodeHandler(auth));
+app.all("/api/auth/*path", toNodeHandler(auth));
 
 app.use(express.json());
 app.use("/api/v1", router);

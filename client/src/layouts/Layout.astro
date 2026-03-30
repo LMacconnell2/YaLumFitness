@@ -1,6 +1,32 @@
 ---
 import '../css/app.css';
+import Header from '../components/general/Header.svelte';
+import Footer from '../components/general/Footer.svelte';
+
 const { title } = Astro.props;
+
+// 1. Get the cookies from the current browser request
+const cookieHeader = Astro.request.headers.get("cookie") || "";
+
+// 2. Call your Express Backend's get-session endpoint
+// Replace localhost:3000 with your actual SERVER_URL if different
+let isLoggedIn = false;
+
+try {
+  const response = await fetch("http://localhost:3000/api/auth/get-session", {
+    headers: {
+      cookie: cookieHeader, // Pass the user's cookies to the backend
+    },
+  });
+
+  if (response.ok) {
+    const session = await response.json();
+    isLoggedIn = !!session; // If session exists, user is logged in
+  }
+} catch (e) {
+  console.error("Auth check failed:", e);
+  isLoggedIn = false;
+}
 ---
 <html lang="en">
   <head>
@@ -9,5 +35,10 @@ const { title } = Astro.props;
     <title>{title}</title>
   </head>
   <body>
-    <slot /> </body>
+      <Header client:load {isLoggedIn} />
+      
+      <slot />
+      
+      <Footer client:load />
+  </body>
 </html>

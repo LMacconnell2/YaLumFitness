@@ -1,31 +1,35 @@
 <script lang="ts">
-  import { authClient } from "../lib/auth-client.ts";
+  import { authClient } from "../../lib/auth-client.ts";
 
   let email = $state("");
   let password = $state("");
+  let name = $state("");
   let loading = $state(false);
   let errorMessage = $state("");
 
-  async function handleLogin(e: SubmitEvent) {
+  async function handleSignUp(e: SubmitEvent) {
     e.preventDefault();
     loading = true;
-    
-    const { data, error } = await authClient.signIn.email({
+    errorMessage = "";
+
+    const { data, error } = await authClient.signUp.email({
       email,
       password,
-      callbackURL: "/dashboard"
+      name,
+      callbackURL: "/dashboard" // Where to go after success
     });
 
     if (error) {
-      errorMessage = error.message || "Invalid credentials";
+      errorMessage = error.message || "Registration failed";
     }
     loading = false;
   }
 </script>
 
-<form onsubmit={handleLogin} class="auth-form">
-  <h2>Login</h2>
-
+<form onsubmit={handleSignUp} class="auth-form">
+  <h2>Create Account</h2>
+  
+  <input type="text" bind:value={name} placeholder="Name" required />
   <input type="email" bind:value={email} placeholder="Email" required />
   <input type="password" bind:value={password} placeholder="Password" required />
 
@@ -34,6 +38,6 @@
   {/if}
 
   <button type="submit" disabled={loading}>
-    {loading ? "Logging in..." : "Login"}
+    {loading ? "Creating..." : "Register"}
   </button>
 </form>

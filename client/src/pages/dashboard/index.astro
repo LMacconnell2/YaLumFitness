@@ -1,0 +1,12 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+import WorkoutSummary from '../../components/dashboard/WorkoutSummary.svelte';
+import NutritionChart from '../../components/dashboard/NutritionChart.svelte';
+---
+<DashboardLayout title="Your Dashboard">
+  <h2>Welcome back!</h2>
+  <div class="grid">
+    <WorkoutSummary client:visible />
+    <NutritionChart client:visible />
+  </div>
+</DashboardLayout>

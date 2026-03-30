@@ -1,4 +1,6 @@
 import { createAuthClient } from "better-auth/svelte";
+
 export const authClient = createAuthClient({
-    baseURL: import.meta.env.CLIENT_URL || "http://localhost:3000" // Your Astro URL
+    // Point this to your Express server's auth path
+    baseURL: "http://localhost:3000/api/auth" 
 });

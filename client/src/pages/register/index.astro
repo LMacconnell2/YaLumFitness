@@ -1,10 +1,8 @@
 ---
-import Register from "../../components/Register.svelte";
+import Register from "../../components/auth/Register.svelte";
 import Layout from '../../layouts/Layout.astro';
-import Header from '../../components/Header.svelte';
 ---
 <Layout title="Register Page">
-    <Header client:load />
     <h1>Register</h1>
     <Register client:load />
 </Layout>
