@@ -92,5 +92,23 @@ router.get('/:userId', async (req, res) => {
 
 })
 
+router.put('/:userId/:workoutId', async (req, res) => {
+  const {userId, workoutId} = req.params;
+  const {name, duration, workoutType, notes, exercises} = req.body;
+
+  try {
+    const workouts = await getWorkoutsByUserId(userId);
+
+    res.status(201).json(`Updated workout successfully`)    
+  } catch (err) {
+    if (err) {
+      return res.status(404).json(`Error: ${err}`)
+    }
+    res.status(500).json('An internal server error occurred.')
+  }
+
+
+})
+
 
 export default router;
