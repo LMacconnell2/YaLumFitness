@@ -1,6 +1,8 @@
+import { ObjectId } from "mongodb";
+
 
 export interface User {
-  _id: Object;
+  _id: ObjectId;
   email: string;        // Index: Unique
   passwordHash: string;
   firstName: string;
@@ -43,7 +45,7 @@ export interface Plan {
 }
 
 export interface Exercise {
-  _id: Object;
+  _id: ObjectId;
   name: string;           // e.g., "Barbell Bench Press"
   category: 'strength' | 'cardio' | 'flexibility';
   primaryMuscleGroup: string; 
@@ -54,13 +56,15 @@ export interface Exercise {
 }
 
 export interface Workout {
-  _id: Object;
+  _id: ObjectId;
   userId: Object;     // Index: Compound { userId: 1, date: -1 }
+  name: String;
   date: Date;
   duration: number;     // Minutes
   workoutType: string;
   notes: string;
   exercises: {
+    exerciseId: string;
     name: string;
     weight: number | null;
     sets: number;

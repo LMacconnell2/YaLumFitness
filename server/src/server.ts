@@ -2,14 +2,13 @@ import dotenv from "dotenv";
 import express from "express";
 import http from "http";
 import { connectDB } from './database/database.ts';
-import { auth } from "./services/auth.service.mts";
-import surveyRoutes from "./routes/surveyRoutes.ts";
 
 
 
 dotenv.config();
 const app = express();
-app.use()
+app.use(express.json());
+app.use('/api/v1/', routes);
 
 const HOST = "localhost";
 const PORT = process.env.PORT || 3000;

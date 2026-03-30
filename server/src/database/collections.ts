@@ -1,5 +1,5 @@
 // src/database/collections.ts
-import { Db, ObjectId } from 'mongodb';
+import { BSONType, Db, ObjectId } from 'mongodb';
 
 export async function createCollections(db: Db): Promise<void> {
 
@@ -86,15 +86,35 @@ export async function createCollections(db: Db): Promise<void> {
   });
   await db.collection('plans').createIndex({ userId: 1 });
 
+  // ── Exercise ────────────────────────────────────────────────────────────────
+  await db.createCollection('exercises', {
+    validator: {
+      $jsonSchema: {
+        bsonType: 'object',
+        required: ['name', 'equipmentRequired', 'difficulty', 'primaryMuscleGroup', 'mechanics', 'instructions', 'metValue'],
+        properties: {
+          name:               { bsonType: 'string' },
+          category:           { enum: ['strength', 'cardio', 'flexibility']},
+          primaryMuscleGroup: { bsonType: 'string' },
+          secondaryMuscles:   { bsonType: 'array', items: { bsonType: 'string' } },
+          equipmentRequired:  { bsonType: 'array', items: { bsonType: 'string' } },
+          instructions:       { bsonType: 'array', items: { bsonType: 'string' }, minItems: 1 },
+          difficulty:         { enum: ['beginner', 'intermediate', 'advanced'] },
+        }
+      }
+    }
+  });
+  await db.collection('exercises').createIndex({ name: 1 }, { unique: true });
 
   // ── Workouts ───────────────────────────────────────────────────────────────
   await db.createCollection('workouts', {
     validator: {
       $jsonSchema: {
         bsonType: 'object',
-        required: ['userId', 'date', 'duration', 'workoutType', 'exercises'],
+        required: ['userId', 'name', 'date', 'duration', 'workoutType', 'exercises'],
         properties: {
           userId:      { bsonType: 'objectId' },
+          name:        { bsonType: 'string' },
           date:        { bsonType: 'date' },
           duration:    { bsonType: 'number' },
           workoutType: { bsonType: 'string' },
@@ -105,11 +125,12 @@ export async function createCollections(db: Db): Promise<void> {
               bsonType: 'object',
               required: ['name', 'sets', 'reps', 'intensity'],
               properties: {
-                name:      { bsonType: 'string' },
-                weight:    { bsonType: ['number', 'null'] },
-                sets:      { bsonType: 'number' },
-                reps:      { bsonType: 'number' },
-                intensity: { bsonType: 'number', minimum: 1, maximum: 10 },
+                exerciseId: { bsonType: 'objectId' },
+                name:       { bsonType: 'string' },
+                weight:     { bsonType: ['number', 'null'] },
+                sets:       { bsonType: 'number' },
+                reps:       { bsonType: 'number' },
+                intensity:  { bsonType: 'number', minimum: 1, maximum: 10 },
               },
             },
           },
