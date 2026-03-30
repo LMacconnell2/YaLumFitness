@@ -1,5 +1,6 @@
 <script>
-  let survey = false; // Placeholder for survey completion status
+  
+  let survey = true; // Placeholder for survey completion status
   let sidebarOpen = false;
 </script>
 
@@ -24,7 +25,7 @@
     {:else}
       <ul>
         <li><a href="/survey">Retake Survey</a></li>
-        <li><a href="/my-plan">View Plan</a></li>
+        <li><a href="/plan">View Plan</a></li>
       </ul>
     {/if}
   </nav>

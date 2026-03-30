@@ -4,16 +4,6 @@
 <div class="survey-form">
   <h2>Survey Form</h2>
   <form>
-    <!-- 
-    userId: Object;     // Index: Secondary
-  fitnessLevel: 'beginner' | 'intermediate' | 'advanced';
-  goal: string;
-  availableTimePerWeek: number;
-  equipmentAccess: 'home' | 'gym' | 'minimal';
-  dietaryRestrictions: string[];
-  healthConditions: string[];
-  age: number;
-  experienceLevel: string; -->
 
     <label for="goal">Goal:</label>
     <input type="text" id="goal" name="goal" required />
