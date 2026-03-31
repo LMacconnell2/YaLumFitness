@@ -1,24 +1,32 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="Page Not Found">
-    <div class="error-page">
-        <h1 class="error-num">404</h1>
-        <p class="error-desc">These are not the droids you are looking for.</p>
-        <a class="error-home" href="/">Go Home</a>
-    </div>
-
+  <div class="error-page">
+    <h1 class="error-num">404</h1>
+    <p class="error-desc">These are not the droids you are looking for.</p>
+    <a class="error-home" href="/">Go Home</a>
+  </div>
 </Layout>
 <style>
-    .error-page {
-        max-width: 500px;
-        max-height: 500px;
-        border: 2px solid white;
-        padding: 50px;
-        border-radius: 25px;
-        box-shadow: 10px 10px 10px #04FF00;
-        filter: drop-shadow(4px 4px 10px #04FF00);
-        margin: 0 auto;
-    }
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0
+  }
+  .error-page {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    max-height: 500px;
+    border: 2px solid white;
+    padding: 50px;
+    border-radius: 25px;
+    box-shadow: 10px 10px 10px #04ff00;
+    filter: drop-shadow(4px 4px 10px #04ff00);
+    margin: 0 auto;
+  }
 </style>
