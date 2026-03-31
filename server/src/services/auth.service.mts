@@ -1,13 +1,22 @@
 import { betterAuth } from "better-auth";
 import { getDb } from "../database/database.ts";
 
-export const auth = betterAuth({
-  database: {
-    type: "mongodb",
-    db: getDb()
-  },
-  emailAndPassword: {
-    enabled: true
-  },
-  trustedOrigins: ["http://localhost:5173"], // This may need to change.
-});
+let auth: ReturnType<typeof betterAuth>;
+
+export function initAuth() {
+  auth = betterAuth({
+    database: {
+      type: "mongodb",
+      db: getDb() // safe now — called after connectDB()
+    },
+    emailAndPassword: {
+      enabled: true
+    },
+    trustedOrigins: ["http://localhost:5173"],
+  });
+}
+
+export function getAuth() {
+  if (!auth) throw new Error("Auth not initialized. Call initAuth first.");
+  return auth;
+}
