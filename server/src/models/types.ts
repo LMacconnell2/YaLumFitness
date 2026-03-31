@@ -73,6 +73,17 @@ export interface Workout {
   }[];
 }
 
+export interface Food {
+  _id: ObjectId;
+  name: string;        // e.g., "Grilled Chicken Breast"
+  servingSize: number; // e.g., 100
+  servingUnit: string; // e.g., "g"
+  calories: number;
+  protein: number;
+  carbs: number;
+  fats: number;
+}
+
 export interface Meal {
   _id: Object;
   userId: Object;     // Index: Compound { userId: 1, date: -1 }
@@ -85,9 +96,9 @@ export interface Meal {
     fats: number;
   };
   foodItems: {
-    foodId?: string;    // Reference to common food DB
+    foodId: string;    // Reference to common food DB
     name: string;
-    servingSize: string;
+    servingNum: number;
     calories: number;
   }[];
 }
