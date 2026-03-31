@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import type { Workout } from '../models/types.ts'
-import { createWorkout, getWorkoutsByUserId } from '../models/workout.model.mts';
+import { createWorkout, getWorkoutById, getWorkoutsByUserId, updateWorkout, deleteWorkout
+  
+ } from '../models/workout.model.mts';
 import { ObjectId } from 'mongodb';
 import { getUserById } from '../models/user.model.mts';
 
@@ -91,6 +93,48 @@ router.get('/:userId', async (req, res) => {
   }
 
 })
+
+router.put('/:workoutId', async (req, res) => {
+  try {
+    const workoutId = req.params.workoutId;
+    const updateData = req.body;
+    const workouts = await getWorkoutById(workoutId);
+    if (!workouts) {
+      return res.status(400).json(`Workout ${workoutId} doesn't exist...`)
+    }
+    const result = await updateWorkout(workoutId, updateData);
+    if (result.modifiedCount === 0) {
+      return res.status(400).json(`Failed to update workout ${workoutId}...`)
+    }
+    res.status(201).json(`Updated workout successfully`)    
+  } catch (err) {
+    if (err) {
+      return res.status(404).json(`Error: ${err}`)
+    }
+    res.status(500).json('An internal server error occurred.')
+  }
+})
+
+router.delete('/:workoutId', async (req, res) => {
+  try {
+    const workoutId = req.params.workoutId;
+    const workouts = await getWorkoutById(workoutId);
+    if (!workouts) {
+      return res.status(400).json(`Workout ${workoutId} doesn't exist...`)
+    }
+    const result = await deleteWorkout(workoutId);
+    if (result.deletedCount === 0) {
+      return res.status(400).json(`Failed to delete workout ${workoutId}...`)
+    }
+    res.status(201).json(`Deleted workout successfully`)
+  } catch (err) {
+    if (err) {
+      return res.status(404).json(`Error: ${err}`)
+    }
+    res.status(500).json('An internal server error occurred.')
+  }
+})
+
 
 
 export default router;
