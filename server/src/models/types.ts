@@ -45,7 +45,6 @@ export interface Plan {
 }
 
 export interface Exercise {
-  _id: ObjectId;
   name: string;           // e.g., "Barbell Bench Press"
   category: 'strength' | 'cardio' | 'flexibility';
   primaryMuscleGroup: string; 
@@ -56,7 +55,6 @@ export interface Exercise {
 }
 
 export interface Workout {
-  _id: ObjectId;
   userId: Object;     // Index: Compound { userId: 1, date: -1 }
   name: String;
   date: Date;
