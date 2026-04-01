@@ -17,6 +17,8 @@ interface exercisesReport {
 
 const router:Router = Router();
 
+// Create a workout log
+// TODO: add auth middleware to get user id from session
 router.post('/', async (req, res) => {
   try {
     const {name, duration, workoutType, notes, exercises} = req.body;
@@ -44,7 +46,7 @@ router.post('/', async (req, res) => {
     */
 
     // need to call a service to clean the code
-    const workout = {
+    const workout: Workout = {
       userId: userId,
       name: String(name),
       date: new Date(),
@@ -65,6 +67,7 @@ router.post('/', async (req, res) => {
   }
 })
 
+// Get all workout logs for a user
 router.get('/:userId', async (req, res) => {
   const userId = req.params.userId;
 
@@ -94,6 +97,7 @@ router.get('/:userId', async (req, res) => {
 
 })
 
+// Update a workout log
 router.put('/:workoutId', async (req, res) => {
   try {
     const workoutId = req.params.workoutId;

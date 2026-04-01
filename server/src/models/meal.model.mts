@@ -3,8 +3,8 @@ import { getFoodById } from './food.model.mts';
 import type { Meal } from './types.ts';
 import { ObjectId } from 'mongodb';
 
-async function getMealsByUserId(userId: Object, date?: Date): Promise<Meal[] | null> {
-  const query: any = { userId: userId };
+async function getMealsByUserId(userId: string, date?: Date): Promise<Meal[] | null> {
+  const query: any = { userId: new ObjectId(userId) };
 
   if (date) {
     const start = new Date(date);
@@ -18,14 +18,14 @@ async function getMealsByUserId(userId: Object, date?: Date): Promise<Meal[] | n
       $lte: end 
     };
   }
-  
+
   const data = await mongodb.getDb().collection<Meal>('meals').find(query).toArray();
   return data;
 }
 
-async function getMealById(id: Object): Promise<Meal | null> {
+async function getMealById(id: string): Promise<Meal | null> {
   const data = await mongodb.getDb().collection<Meal>('meals').findOne({
-    _id: id
+    _id: new ObjectId(id)
   })
   return data;
 }
@@ -35,16 +35,16 @@ async function addMeal(meal: Meal) {
   return result;
 }
 
-async function updateMeal(mealId: Object, updatedMeal: Partial<Meal>) {
+async function updateMeal(mealId: string, updatedMeal: Partial<Meal>) {
   const result = await mongodb.getDb().collection<Meal>('meals').updateOne(
-    { _id: mealId },
+    { _id: new ObjectId(mealId) },
     { $set: updatedMeal }
   );
   return result;
 }
 
-async function deleteMeal(mealId: Object) {
-  const result = await mongodb.getDb().collection<Meal>('meals').deleteOne({ _id: mealId });
+async function deleteMeal(mealId: string) {
+  const result = await mongodb.getDb().collection<Meal>('meals').deleteOne({ _id: new ObjectId(mealId) });
   return result;
 } 
 
