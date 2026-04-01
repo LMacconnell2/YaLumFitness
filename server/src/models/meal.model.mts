@@ -3,8 +3,8 @@ import { getFoodById } from './food.model.mts';
 import type { Meal } from './types.ts';
 import { ObjectId } from 'mongodb';
 
-async function getMealsByUserId(userId: Object, date?: Date): Promise<Meal[] | null> {
-  const query: any = { userId: userId };
+async function getMealsByUserId(userId: string, date?: Date): Promise<Meal[] | null> {
+  const query: any = { userId: new ObjectId(userId) };
 
   if (date) {
     const start = new Date(date);
@@ -23,9 +23,9 @@ async function getMealsByUserId(userId: Object, date?: Date): Promise<Meal[] | n
   return data;
 }
 
-async function getMealById(id: Object): Promise<Meal | null> {
+async function getMealById(id: string): Promise<Meal | null> {
   const data = await mongodb.getDb().collection<Meal>('meals').findOne({
-    _id: id
+    _id: new ObjectId(id)
   })
   return data;
 }
