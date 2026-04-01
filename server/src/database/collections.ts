@@ -188,9 +188,7 @@ export async function createCollections(db: Db): Promise<void> {
               required: ['name', 'servingSize', 'calories'],
               properties: {
                 foodId:      { bsonType: 'string' },
-                name:        { bsonType: 'string' },
                 servingNum:  { bsonType: 'number' },
-                calories:    { bsonType: 'number' },
               },
             },
           },
