@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import type { Request, Response } from 'express';
-import { getAuth } from '../services/auth.service.mts';
+import { auth } from '../services/auth.service.mts';
 import { getUserByEmail } from '../models/user.model.mts';
 
 const router = Router();
@@ -8,7 +8,6 @@ const router = Router();
 // Register a new user
 router.post('/register', async (req: Request, res: Response) => {
 
-  const auth = getAuth(); // Get the initialized auth instance
   // get the user details from the request body
   const { email, password, fName, lName } = req.body;
 
@@ -31,7 +30,6 @@ router.post('/register', async (req: Request, res: Response) => {
 router.post('/login', async (req: Request, res: Response) => {
   // get the user details from the request body
   const { email, password } = req.body;
-  const auth = getAuth(); // Get the initialized auth instance
   // check if user exists
   const user = await getUserByEmail(email);
   if (!user) {

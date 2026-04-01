@@ -1,8 +1,7 @@
-import { getAuth } from "../services/auth.service.mts";
+import { auth } from "../services/auth.service.mts";
 
 export default async function requireAuth(req, res, next) {
   try {
-    const auth = getAuth();
     const session = await auth.api.getSession({
       headers: req.headers
     });
