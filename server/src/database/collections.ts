@@ -4,7 +4,7 @@ import { BSONType, Db, ObjectId } from 'mongodb';
 export async function createCollections(db: Db): Promise<void> {
 
   // ── Users ──────────────────────────────────────────────────────────────────
-  await db.createCollection('users', {
+  await db.createCollection('user', {
     validator: {
       $jsonSchema: {
         bsonType: 'object',
@@ -20,7 +20,7 @@ export async function createCollections(db: Db): Promise<void> {
       },
     },
   });
-  await db.collection('users').createIndex({ email: 1 }, { unique: true });
+  await db.collection('user').createIndex({ email: 1 }, { unique: true });
 
 
   // ── Surveys ────────────────────────────────────────────────────────────────
