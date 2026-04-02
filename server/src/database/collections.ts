@@ -141,6 +141,26 @@ export async function createCollections(db: Db): Promise<void> {
   await db.collection('workouts').createIndex({ userId: 1, date: -1 });
 
 
+  // ── Foods ─────────────────────────────────────────────────────────────────
+  await db.createCollection('foods', {
+    validator: {  
+      $jsonSchema: {
+        bsonType: 'object',
+        required: ['name', 'servingSize', 'calories', 'protein', 'carbs', 'fats'],
+        properties: {
+          name:        { bsonType: 'string' },
+          servingSize: { bsonType: 'number' },
+          servingUnit: { bsonType: 'string' },
+          calories:    { bsonType: 'number' },
+          protein:     { bsonType: 'number' },
+          carbs:       { bsonType: 'number' },
+          fats:        { bsonType: 'number' },
+        },
+      },
+    },
+  });
+  await db.collection('foods').createIndex({ name: 1 }, { unique: true });
+
   // ── Meals ──────────────────────────────────────────────────────────────────
   await db.createCollection('meals', {
     validator: {
@@ -168,9 +188,7 @@ export async function createCollections(db: Db): Promise<void> {
               required: ['name', 'servingSize', 'calories'],
               properties: {
                 foodId:      { bsonType: 'string' },
-                name:        { bsonType: 'string' },
-                servingSize: { bsonType: 'string' },
-                calories:    { bsonType: 'number' },
+                servingNum:  { bsonType: 'number' },
               },
             },
           },

@@ -45,7 +45,6 @@ export interface Plan {
 }
 
 export interface Exercise {
-  _id: ObjectId;
   name: string;           // e.g., "Barbell Bench Press"
   category: 'strength' | 'cardio' | 'flexibility';
   primaryMuscleGroup: string; 
@@ -56,7 +55,6 @@ export interface Exercise {
 }
 
 export interface Workout {
-  _id: ObjectId;
   userId: Object;     // Index: Compound { userId: 1, date: -1 }
   name: String;
   date: Date;
@@ -73,8 +71,17 @@ export interface Workout {
   }[];
 }
 
+export interface Food {
+  name: string;        // e.g., "Grilled Chicken Breast"
+  servingSize: number; // e.g., 100
+  servingUnit: string; // e.g., "g"
+  calories: number;
+  protein: number;
+  carbs: number;
+  fats: number;
+}
+
 export interface Meal {
-  _id: Object;
   userId: Object;     // Index: Compound { userId: 1, date: -1 }
   date: Date;
   time: string;         // e.g., "14:30"
@@ -85,10 +92,8 @@ export interface Meal {
     fats: number;
   };
   foodItems: {
-    foodId?: string;    // Reference to common food DB
-    name: string;
-    servingSize: string;
-    calories: number;
+    foodId: string;    // Reference to common food DB
+    servingNum: number;
   }[];
 }
 

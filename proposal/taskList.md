@@ -70,10 +70,10 @@
 
 ### Nutrition Tracking API
 
-- [ ] **Task 3.1** - Create Meal and Food collection schemas/models (1.5h)
-- [ ] **Task 3.2** - Implement meal logging endpoint (`POST /api/meals`) (1.5h)
-- [ ] **Task 3.3** - Implement meal retrieval with date filtering (`GET /api/meals/:userId`) (1.5h)
-- [ ] **Task 3.4** - Implement meal update/delete endpoints (1.5h)
+- [x] **Task 3.1** - Create Meal and Food collection schemas/models (1.5h)
+- [x] **Task 3.2** - Implement meal logging endpoint (`POST /api/meals`) (1.5h)
+- [x] **Task 3.3** - Implement meal retrieval with date filtering (`GET /api/meals/:userId`) (1.5h)
+- [x] **Task 3.4** - Implement meal update/delete endpoints (1.5h)
 - [ ] **Task 3.5** - Implement meal search functionality (1.5h)
 - [ ] **Task 3.6** - Implement food search endpoint (`GET /api/foods/search`) (1.5h)
 - [ ] **Task 3.7** - Implement custom food creation endpoint (1.5h)

@@ -8,7 +8,7 @@ const router: Router = Router();
 router.post('/', async (req, res) => {
   const {name, category, primaryMuscleGroup, secondaryMuscles, equipmentRequired, instructions, difficulty} = req.body;
 
-  const newExercise = {
+  const newExercise: Exercise = {
     name: name,
     category: category,
     primaryMuscleGroup: primaryMuscleGroup,
