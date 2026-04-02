@@ -1,12 +1,13 @@
 import { Router } from 'express';
 import type { Request, Response } from 'express';
-import { auth } from '../service/auth.ts';
+import { auth } from '../services/auth.service.mts';
 import { getUserByEmail } from '../models/user.model.mts';
 
 const router = Router();
 
 // Register a new user
 router.post('/register', async (req: Request, res: Response) => {
+
   // get the user details from the request body
   const { email, password, fName, lName } = req.body;
 
@@ -45,3 +46,6 @@ router.post('/login', async (req: Request, res: Response) => {
 
   res.status(200).json({ message: 'Login successful' });
 });
+
+
+export default router;
