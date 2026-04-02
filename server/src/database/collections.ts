@@ -3,24 +3,24 @@ import { BSONType, Db, ObjectId } from 'mongodb';
 
 export async function createCollections(db: Db): Promise<void> {
 
-  // ── Users ──────────────────────────────────────────────────────────────────
-  await db.createCollection('user', {
-    validator: {
-      $jsonSchema: {
-        bsonType: 'object',
-        required: ['email', 'passwordHash', 'firstName', 'lastName', 'createdAt', 'updatedAt'],
-        properties: {
-          email:        { bsonType: 'string' },
-          passwordHash: { bsonType: 'string' },
-          firstName:    { bsonType: 'string' },
-          lastName:     { bsonType: 'string' },
-          createdAt:    { bsonType: 'date' },
-          updatedAt:    { bsonType: 'date' },
-        },
-      },
-    },
-  });
-  await db.collection('user').createIndex({ email: 1 }, { unique: true });
+  // // ── Users ──────────────────────────────────────────────────────────────────
+  // await db.createCollection('user', {
+  //   validator: {
+  //     $jsonSchema: {
+  //       bsonType: 'object',
+  //       required: ['email', 'passwordHash', 'firstName', 'lastName', 'createdAt', 'updatedAt'],
+  //       properties: {
+  //         email:        { bsonType: 'string' },
+  //         passwordHash: { bsonType: 'string' },
+  //         firstName:    { bsonType: 'string' },
+  //         lastName:     { bsonType: 'string' },
+  //         createdAt:    { bsonType: 'date' },
+  //         updatedAt:    { bsonType: 'date' },
+  //       },
+  //     },
+  //   },
+  // });
+  // await db.collection('user').createIndex({ email: 1 }, { unique: true });
 
 
   // ── Surveys ────────────────────────────────────────────────────────────────
