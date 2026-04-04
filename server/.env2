@@ -1,8 +1,0 @@
-PORT=3000
-NODE_ENV=development
-MONGO_URI=mongodb+srv://mac23068_db_user:PzKpfw2Luchs@Cluster0.gz68e1d.mongodb.net/fitnessData?appName=Cluster0
-MONGO_USER=mac23068_db_user
-MONGO_PASSWORD=PzKpfw2Luchs
-MONGO_DATABASE=Cluster0
-SERVER_URL=http://localhost:3000
-CLIENT_URL=http://localhost:4323
