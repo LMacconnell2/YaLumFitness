@@ -59,5 +59,5 @@
 </div>
 
 <style>
-  @import "../css/survey.css";
+  @import "../../css/survey.css";
 </style>

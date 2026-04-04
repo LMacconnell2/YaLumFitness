@@ -1,23 +1,13 @@
 ---
 import BaseLayout from './Layout.astro';
+import Sidebar from '../components/dashboard/Sidebar.svelte';
 
 const { title } = Astro.props;
 ---
 
 <BaseLayout title={title} isLoggedIn={true}>
   <div class="dashboard-container">
-    <aside class="sidebar">
-      <nav>
-        <ul>
-          <li><a href="/dashboard">Overview</a></li>
-          <li><a href="/dashboard/workouts">Workouts</a></li>
-          <li><a href="/dashboard/nutrition">Nutrition</a></li>
-          <li><a href="/dashboard/settings">Settings</a></li>
-        </ul>
-      </nav>
-      <div class="user-info">
-      </div>
-    </aside>
+    <Sidebar client:load />
 
     <main class="dashboard-content">
       <slot />
@@ -28,39 +18,21 @@ const { title } = Astro.props;
 <style>
   .dashboard-container {
     display: grid;
-    grid-template-columns: 250px 1fr;
-    min-height: calc(100vh - 70px); /* Adjust based on your header height */
+    /* This creates a 280px column for the sidebar and the rest for content */
+    grid-template-columns: 280px 1fr;
+    min-height: 100vh;
   }
-
-  .sidebar {
-    background: #f8f9fa;
-    border-right: 1px solid #eee;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .sidebar ul { list-style: none; padding: 0; }
-  .sidebar li { margin-bottom: 1rem; }
-  .sidebar a { text-decoration: none; color: #333; font-weight: 500; }
-  .sidebar a:hover { color: #000; }
-
-  .user-info {
-    padding-top: 1rem;
-    border-top: 1px solid #ddd;
-    font-size: 0.85rem;
-  }
-  .user-name { font-weight: bold; margin: 0; }
-  .user-email { color: #666; margin: 0; }
 
   .dashboard-content {
     padding: 2rem;
-    background: #fff;
+    background: #ffffff;
+    width: 100%;
   }
 
   @media (max-width: 768px) {
-    .dashboard-container { grid-template-columns: 1fr; }
-    .sidebar { display: none; } /* Hide sidebar on mobile or use a hamburger */
+    .dashboard-container {
+      /* On mobile, stack them so the content takes full width */
+      grid-template-columns: 1fr;
+    }
   }
 </style>

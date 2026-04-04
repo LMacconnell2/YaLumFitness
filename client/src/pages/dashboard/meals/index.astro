@@ -1,0 +1,62 @@
+---
+import DashboardLayout from '../../../layouts/DashboardLayout.astro';
+import MealPlanGenerator from '../../../components/dashboard/MealPlanGenerator.svelte';
+import MealPlanCard from '../../../components/dashboard/MealPlanCard.svelte';
+
+const { user } = Astro.locals;
+const cookie = Astro.request.headers.get("cookie") || "";
+
+// Mock data: Replace with fetch("http://localhost:3000/api/v1/meals/plans", { headers: { cookie } })
+const mealPlans = [
+  { 
+    id: 'm1', 
+    name: 'High Protein / Low Carb', 
+    isDefault: true, 
+    calories: 2200,
+    description: 'Designed for muscle maintenance and fat loss.' 
+  },
+  { 
+    id: 'm2', 
+    name: 'Vegetarian Bulk', 
+    isDefault: false, 
+    calories: 2800,
+    description: 'Plant-based surplus for size gains.' 
+  }
+];
+
+const surveys = [
+  { id: 's1', date: '2026-03-15', goal: 'Weight Loss' },
+  { id: 's2', date: '2026-01-10', goal: 'Muscle Gain' }
+];
+---
+
+<DashboardLayout title="Meal Planning">
+  <div class="page-header">
+    <div>
+      <h1>Meal Planning</h1>
+      <p>Fuel your body with AI-generated nutrition plans tailored to your goals.</p>
+    </div>
+    <MealPlanGenerator client:load {surveys} />
+  </div>
+
+  <div class="plans-grid">
+    {mealPlans.map(plan => (
+      <MealPlanCard client:load {plan} />
+    ))}
+  </div>
+</DashboardLayout>
+
+<style>
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2.5rem;
+  }
+  .page-header h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: 0.5rem; }
+  .plans-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+</style>

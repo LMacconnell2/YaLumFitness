@@ -1,12 +1,166 @@
 ---
 import DashboardLayout from '../../layouts/DashboardLayout.astro';
-import WorkoutSummary from '../../components/dashboard/WorkoutSummary.svelte';
-import NutritionChart from '../../components/dashboard/NutritionChart.svelte';
+const { user } = Astro.locals;
+
+const cookie = Astro.request.headers.get("cookie") || "";
+
+// Mock data for the dashboard (You'll fetch this from MongoDB later)
+const stats = [
+  { label: "Daily Calories", value: "1,850", target: "2,200", unit: "kcal", color: "blue" },
+  { label: "Workouts This Week", value: "3", target: "5", unit: "sessions", color: "green" },
+  { label: "Current Weight", value: "185", target: "175", unit: "lbs", color: "purple" },
+  { label: "Water Intake", value: "64", target: "100", unit: "oz", color: "cyan" }
+];
 ---
-<DashboardLayout title="Your Dashboard">
-  <h2>Welcome back!</h2>
-  <div class="grid">
-    <WorkoutSummary client:visible />
-    <NutritionChart client:visible />
+
+<DashboardLayout title="Dashboard Overview">
+  <section class="welcome-header">
+    <h1>Welcome back, {user?.name?.split(' ')[0] || 'Athlete'}! 👋</h1>
+    <p>Here is what's happening with your fitness journey today.</p>
+  </section>
+
+  <div class="stats-grid">
+    {stats.map((stat) => (
+      <div class="stat-card">
+        <span class="stat-label">{stat.label}</span>
+        <div class="stat-main">
+          <span class="stat-value">{stat.value}</span>
+          <span class="stat-unit">{stat.unit}</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div 
+            class={`progress-bar-fill ${stat.color}`} 
+            style={`width: ${(parseInt(stat.value) / parseInt(stat.target)) * 100}%`}
+          ></div>
+        </div>
+        <span class="stat-footer">Goal: {stat.target} {stat.unit}</span>
+      </div>
+    ))}
+  </div>
+
+  <div class="dashboard-content-grid">
+    <div class="main-column">
+      <div class="content-card">
+        <h3>Today's Workout</h3>
+        <div class="workout-preview">
+          <div class="workout-info">
+            <h4>Upper Body Power</h4>
+            <p>45 Minutes • Strength Training</p>
+          </div>
+          <a href="/dashboard/workouts" class="btn-outline">Start Workout</a>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h3>Recent Progress</h3>
+        <div class="empty-state">
+          <p>No workouts logged in the last 7 days.</p>
+          <a href="/dashboard/workouts">Log your first workout</a>
+        </div>
+      </div>
+    </div>
+
+    <aside class="side-column">
+      <div class="content-card">
+        <h3>Nutrition Summary</h3>
+        <ul class="nutrition-list">
+          <li><span>Protein</span> <strong>120g</strong></li>
+          <li><span>Carbs</span> <strong>210g</strong></li>
+          <li><span>Fat</span> <strong>65g</strong></li>
+        </ul>
+        <a href="/dashboard/meals" class="btn-text">View Meal Plan →</a>
+      </div>
+    </aside>
   </div>
 </DashboardLayout>
+
+<style>
+  .welcome-header { margin-bottom: 2rem; }
+  .welcome-header h1 { font-size: 1.8rem; font-weight: 800; color: #111827; margin-bottom: 0.5rem; }
+  .welcome-header p { color: #6b7280; }
+
+  /* Stats Grid */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stat-label { font-size: 0.85rem; color: #6b7280; font-weight: 600; text-transform: uppercase; }
+  .stat-main { margin: 0.5rem 0; display: flex; align-items: baseline; gap: 4px; }
+  .stat-value { font-size: 1.5rem; font-weight: 800; color: #111827; }
+  .stat-unit { font-size: 0.9rem; color: #9ca3af; }
+
+  /* Progress Bars */
+  .progress-bar-bg { height: 6px; background: #f3f4f6; border-radius: 10px; margin-bottom: 0.5rem; overflow: hidden; }
+  .progress-bar-fill { height: 100%; border-radius: 10px; }
+  .blue { background: #3b82f6; }
+  .green { background: #10b981; }
+  .purple { background: #8b5cf6; }
+  .cyan { background: #06b6d4; }
+  .stat-footer { font-size: 0.75rem; color: #9ca3af; }
+
+  /* Layout Grid */
+  .dashboard-content-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .content-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    margin-bottom: 1.5rem;
+  }
+
+  .content-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1.25rem; }
+
+  .workout-preview {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f9fafb;
+    padding: 1rem;
+    border-radius: 8px;
+  }
+
+  .workout-info h4 { font-weight: 700; margin-bottom: 0.25rem; }
+  .workout-info p { font-size: 0.85rem; color: #6b7280; }
+
+  .btn-outline {
+    padding: 0.5rem 1rem;
+    border: 1px solid #000;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #000;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .nutrition-list { list-style: none; padding: 0; }
+  .nutrition-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #f3f4f6;
+    font-size: 0.95rem;
+  }
+
+  .btn-text { text-decoration: none; color: #3b82f6; font-size: 0.9rem; font-weight: 600; display: block; margin-top: 1rem; }
+
+  @media (max-width: 1024px) {
+    .dashboard-content-grid { grid-template-columns: 1fr; }
+  }
+</style>
