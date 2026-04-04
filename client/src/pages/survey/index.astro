@@ -1,12 +1,19 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import Survey from '../../components/forms/SurveyForm.svelte';
+import SurveyModal from '../../components/forms/SurveyModal.svelte';
 ---
 
-
-
-<Layout>
-	<Survey client:load />
+<Layout title="Welcome - Initial Survey">
+    <SurveyModal client:load show={true} isInitial={true} />
+    
+    <div class="background-content">
+        <h1>Setting up your experience...</h1>
+    </div>
 </Layout>
 
+<style>
+    .background-content {
+        display: flex; justify-content: center; align-items: center; height: 100vh; color: #d1d5db;
+    }
+</style>
 
