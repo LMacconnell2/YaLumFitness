@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   let { surveys } = $props();
   let selectedSurveyId = $state("");
   let isGenerating = $state(false);
@@ -36,7 +36,7 @@
 </script>
 
 <button class="btn-generate" onclick={() => showModal = true}>
-  Generate Meal Plan 🥗
+  Generate Meal Plan 
 </button>
 
 {#if showModal}
@@ -66,86 +66,19 @@
 
 <style>
   .btn-generate {
-    background: #39ff14;
-    color: #000; 
-    border: none; 
-    padding: 0.9rem 1.8rem;
-    border-radius: 8px; 
-    font-weight: 900; 
-    cursor: pointer;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    box-shadow: 0 0 15px rgba(57, 255, 20, 0.3);
-    transition: 0.3s;
+    background: #10b981; color: white; border: none;
+    padding: 0.8rem 1.5rem; border-radius: 12px; font-weight: 700;
+    cursor: pointer; box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.39);
   }
-
-  .btn-generate:hover {
-    box-shadow: 0 0 25px rgba(57, 255, 20, 0.5);
-    transform: scale(1.02);
-  }
-
   .modal-backdrop {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.85); 
-    display: flex; align-items: center; justify-content: center; 
-    z-index: 1000;
-    backdrop-filter: blur(12px);
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6); display: flex; align-items: center;
+    justify-content: center; z-index: 100; backdrop-filter: blur(4px);
   }
-
-  .modal-content {
-    background: #111114; 
-    padding: 2.5rem; 
-    border-radius: 16px; 
-    width: 400px;
-    border: 1px solid #333;
-    color: #fff;
-  }
-
-  h2 { color: #00f3ff; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem; }
-  
-  p { color: #888; font-size: 0.9rem; margin-bottom: 1.5rem; }
-
-  select { 
-    width: 100%; 
-    padding: 0.8rem; 
-    margin: 1.5rem 0; 
-    border-radius: 8px; 
-    background: #000;
-    border: 1px solid #333; 
-    color: #39ff14;
-    font-family: monospace;
-    outline: none;
-  }
-
-  select:focus { border-color: #39ff14; box-shadow: 0 0 10px rgba(57, 255, 20, 0.2); }
-
+  .modal-content { background: white; padding: 2rem; border-radius: 16px; width: 400px; }
+  select { width: 100%; padding: 0.8rem; margin: 1.5rem 0; border-radius: 8px; border: 1px solid #ddd; }
   .actions { display: flex; gap: 1rem; }
-
-  .btn-confirm { 
-    flex: 2; 
-    background: #39ff14; 
-    color: #000; 
-    border: none; 
-    padding: 0.8rem; 
-    border-radius: 8px; 
-    cursor: pointer; 
-    font-weight: 900;
-    text-transform: uppercase;
-  }
-
-  .btn-confirm:disabled { opacity: 0.3; cursor: not-allowed; filter: grayscale(1); }
-
-  .btn-cancel { 
-    flex: 1;
-    background: transparent; 
-    border: 1px solid #444; 
-    color: #888;
-    padding: 0.8rem; 
-    border-radius: 8px; 
-    cursor: pointer;
-    text-transform: uppercase;
-    font-weight: 700;
-  }
-
-  .btn-cancel:hover { color: #fff; border-color: #666; }
+  .btn-confirm { flex: 1; background: #10b981; color: white; border: none; padding: 0.8rem; border-radius: 8px; cursor: pointer; }
+  .btn-confirm:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-cancel { background: #f3f4f6; border: none; padding: 0.8rem; border-radius: 8px; cursor: pointer; }
 </style>

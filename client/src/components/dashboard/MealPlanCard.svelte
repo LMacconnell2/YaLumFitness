@@ -10,13 +10,7 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ isDefault: true })
       });
-
-      if (response.ok) {
-        window.location.reload();
-      } else {
-        const err = await response.json();
-        console.error("Server error:", err);
-      }
+      if (response.ok) window.location.reload();
     } catch (e) {
       console.error("Failed to set default plan:", e);
     }
@@ -26,15 +20,9 @@
     try {
       const response = await fetch(`http://localhost:3000/api/v1/meals/${plan.id}`, {
         method: "DELETE",
-        credentials: "include",
+        credentials: "include"
       });
-
-      if (response.ok) {
-        window.location.reload();
-      } else {
-        const err = await response.json();
-        console.error("Server error:", err);
-      }
+      if (response.ok) window.location.reload();
     } catch (e) {
       console.error("Failed to delete plan:", e);
     }
@@ -54,6 +42,12 @@
 
   <p class="desc">{plan.description}</p>
 
+  <div class="macros-row">
+    <span> {plan.protein}g protein</span>
+    <span> {plan.carbs}g carbs</span>
+    <span> {plan.fats}g fats</span>
+  </div>
+
   <div class="card-footer">
     <button class="view-btn" onclick={() => showDetails = true}>View Details</button>
     {#if !plan.isDefault}
@@ -68,19 +62,30 @@
   <div class="modal-content" onclick={e => e.stopPropagation()} aria-hidden="true">
     <header>
       <h2>{plan.name}</h2>
-      <span class="tag">{plan.calories} Calories</span>
+      <span class="tag">{plan.calories} kcal</span>
     </header>
 
+    <div class="macro-summary">
+      <div class="macro-pill"> {plan.protein}g <small>protein</small></div>
+      <div class="macro-pill"> {plan.carbs}g <small>carbs</small></div>
+      <div class="macro-pill"> {plan.fats}g <small>fats</small></div>
+    </div>
+
     <div class="plan-details">
-      <div class="meal-item">
-        <strong>Description:</strong> {plan.description}
-      </div>
-      <div class="meal-item">
-        <strong>Daily Calories:</strong> {plan.calories} kcal
-      </div>
-      <div class="meal-item">
-        <strong>Status:</strong> {plan.isDefault ? "Active Plan" : "Inactive"}
-      </div>
+      {#each plan.foodItems as item}
+        <div class="meal-item">
+          <div class="item-name">
+            <strong>{item.name}</strong>
+            <span class="serving">× {item.servingNum} {item.servingUnit}</span>
+          </div>
+          <div class="item-macros">
+            <span>{item.calories} kcal</span>
+            <span>{item.protein}g P</span>
+            <span>{item.carbs}g C</span>
+            <span>{item.fats}g F</span>
+          </div>
+        </div>
+      {/each}
     </div>
 
     <button class="close-btn" onclick={() => showDetails = false}>Close</button>

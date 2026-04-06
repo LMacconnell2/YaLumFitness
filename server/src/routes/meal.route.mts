@@ -1,36 +1,42 @@
 import { Router } from 'express';
 import { ObjectId } from 'mongodb';
 import { addMeal, calTotalMacros, getMealsByUserId, getMealById, updateMeal, deleteMeal } from '../models/meal.model.mts';
+import { requireAuth } from '../middleware/authMiddleware.mts';
 import type { Meal } from '../models/types.ts';
 
 const router: Router = Router();
 
+// Protect all meal routes
+router.use(requireAuth);
 
 router.post('/', async (req, res) => {
   try {
     const { date, time, foodItems } = req.body;
 
-    // validate input
-    if (!date || !time || !foodItems) {
+    if (!date || !time || !foodItems?.length) {
       res.status(400).json({ error: 'Missing required fields' });
       return;
     }
 
-    // Get userId from auth middleware (assuming it's set in req.user)
-    const userId = new ObjectId('65df12341234123412341233'); // Placeholder, replace with actual userId from req.user
+    const userId = new ObjectId(res.locals.user.id);
 
-    const totalMacros = await calTotalMacros(foodItems);
+    // Convert foodId strings to ObjectIds for the model
+    const normalizedItems = foodItems.map((item: { foodId: string; servingNum: number }) => ({
+      foodId: new ObjectId(item.foodId),
+      servingNum: item.servingNum
+    }));
+
+    const totalMacros = await calTotalMacros(normalizedItems);
 
     const newMeal: Meal = {
-      userId: userId,
+      userId,
       date: new Date(date),
       time,
       totalMacros,
-      foodItems
+      foodItems: normalizedItems
     };
 
-    const result = await addMeal(newMeal);
-
+    await addMeal(newMeal);
     res.status(201).json(newMeal);
   } catch (error) {
     console.error('Error creating meal:', error);
@@ -38,16 +44,14 @@ router.post('/', async (req, res) => {
   }
 });
 
+
 router.get('/', async (req, res) => {
   try {
     const { date } = req.query;
-    // Get userId from auth middleware (assuming it's set in req.user)
-    const userId = '65df12341234123412341233'; // Placeholder, replace with actual userId from req.user 
+    const userId = res.locals.user.id; // already a string, model handles it
+
     const meals = await getMealsByUserId(userId, date ? new Date(date as string) : undefined);
-    if (!meals) {
-      return res.status(404).json({ error: 'No meals found for user' });
-    }
-    res.status(200).json(meals);
+    res.status(200).json(meals ?? []);
   } catch (error) {
     console.error('Error fetching meals:', error);
     res.status(500).json({ error: 'Failed to fetch meals' });
@@ -59,26 +63,20 @@ router.put('/:mealId', async (req, res) => {
     const mealId = req.params.mealId;
     const updateData = req.body;
 
-    if (updateData.date) {
-      updateData.date = new Date(updateData.date);
+    const meal = await getMealById(mealId);
+    if (!meal) return res.status(404).json({ error: 'Meal not found' });
+
+    // Prevent users from editing someone else's meal
+    if (meal.userId.toString() !== res.locals.user.id) {
+      return res.status(403).json({ error: 'Forbidden' });
     }
 
-    if (updateData.foodItems) {
-      updateData.totalMacros = await calTotalMacros(updateData.foodItems);
-    }
-    
-    console.log('Checking if meal exists')
-    const meal = await getMealById(mealId);
-    if (!meal) {
-      return res.status(404).json({ error: 'Meal not found' });
-    }
-    console.log('Meal exists, updating meal')
+    if (updateData.date) updateData.date = new Date(updateData.date);
+    if (updateData.foodItems) updateData.totalMacros = await calTotalMacros(updateData.foodItems);
+
     const result = await updateMeal(mealId, updateData);
-    console.log('Update result:', result);
-    if (result.modifiedCount === 0) {
-      return res.status(400).json({ error: 'Failed to update meal' });
-    }
-    console.log('Meal updated successfully')
+    if (result.modifiedCount === 0) return res.status(400).json({ error: 'Failed to update meal' });
+
     res.status(200).json({ message: 'Meal updated successfully' });
   } catch (error) {
     console.error('Error updating meal:', error);
@@ -89,20 +87,23 @@ router.put('/:mealId', async (req, res) => {
 router.delete('/:mealId', async (req, res) => {
   try {
     const mealId = req.params.mealId;
+
     const meal = await getMealById(mealId);
-    if (!meal) {
-      return res.status(404).json({ error: 'Meal not found' });
+    if (!meal) return res.status(404).json({ error: 'Meal not found' });
+
+    // Prevent users from deleting someone else's meal
+    if (meal.userId.toString() !== res.locals.user.id) {
+      return res.status(403).json({ error: 'Forbidden' });
     }
+
     const result = await deleteMeal(mealId);
-    if (result.deletedCount === 0) {
-      return res.status(400).json({ error: 'Failed to delete meal' });
-    }
+    if (result.deletedCount === 0) return res.status(400).json({ error: 'Failed to delete meal' });
+
     res.status(200).json({ message: 'Meal deleted successfully' });
   } catch (error) {
     console.error('Error deleting meal:', error);
     res.status(500).json({ error: 'Failed to delete meal' });
   }
 });
-
 
 export default router;
