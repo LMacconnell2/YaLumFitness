@@ -6,28 +6,22 @@ import MealPlanCard from '../../../components/dashboard/MealPlanCard.svelte';
 const { user } = Astro.locals;
 const cookie = Astro.request.headers.get("cookie") || "";
 
-// Mock data: Replace with fetch("http://localhost:3000/api/v1/meals/plans", { headers: { cookie } })
-const mealPlans = [
-  { 
-    id: 'm1', 
-    name: 'High Protein / Low Carb', 
-    isDefault: true, 
-    calories: 2200,
-    description: 'Designed for muscle maintenance and fat loss.' 
-  },
-  { 
-    id: 'm2', 
-    name: 'Vegetarian Bulk', 
-    isDefault: false, 
-    calories: 2800,
-    description: 'Plant-based surplus for size gains.' 
-  }
-];
+const [mealsRes, surveysRes] = await Promise.all([
+  fetch("http://localhost:3000/api/v1/meals", { headers: { cookie } }),
+  fetch("http://localhost:3000/api/v1/survey", { headers: { cookie } })
+]);
 
-const surveys = [
-  { id: 's1', date: '2026-03-15', goal: 'Weight Loss' },
-  { id: 's2', date: '2026-01-10', goal: 'Muscle Gain' }
-];
+const meals = mealsRes.ok ? await mealsRes.json() : [];
+const surveys = surveysRes.ok ? await surveysRes.json() : [];
+
+// Shape raw meal entries into "plan" cards for the UI
+const mealPlans = meals.map((meal: any, i: number) => ({
+  id: meal._id,
+  name: `Meal Plan – ${new Date(meal.date).toLocaleDateString()}`,
+  isDefault: i === 0,
+  calories: meal.totalMacros?.calories ?? 0,
+  description: `${meal.foodItems?.length ?? 0} items logged • ${meal.time}`
+}));
 ---
 
 <DashboardLayout title="Meal Planning">
