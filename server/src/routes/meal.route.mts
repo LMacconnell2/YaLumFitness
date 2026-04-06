@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { ObjectId } from 'mongodb';
-import { addMeal, calTotalMacros, getMealsByUserId, getMealById, updateMeal, deleteMeal } from '../models/meal.model.mts';
+import { addMeal, calTotalMacros, getMealsByUserId, getMealById, updateMeal, deleteMeal, buildMealFilter, getAllMeals } from '../models/meal.model.mts';
 import { requireAuth } from '../middleware/authMiddleware.mts';
 import type { Meal } from '../models/types.ts';
 
@@ -105,5 +105,19 @@ router.delete('/:mealId', async (req, res) => {
     res.status(500).json({ error: 'Failed to delete meal' });
   }
 });
+
+router.get('/search', async (req, res) => {
+  try {
+    const filter = buildMealFilter(req.query);  
+
+    // Apply additional filters in-memory since getMealsByUserId only filters by date
+    const meals = await getAllMeals(filter);
+    res.status(200).json(meals);
+  } catch (error) {
+    console.error('Error searching meals:', error);
+    res.status(500).json({ error: 'Failed to search meals' });
+  } 
+});
+
 
 export default router;
