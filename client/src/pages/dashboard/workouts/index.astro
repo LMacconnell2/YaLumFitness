@@ -1,22 +1,23 @@
 ---
+export const prerender = false;
 import DashboardLayout from '../../../layouts/DashboardLayout.astro';
 import PlanGenerator from '../../../components/dashboard/PlanGenerator.svelte';
-import PlanCard from '../../../components/dashboard/PlanCard.svelte';
+import PlanList from '../../../components/dashboard/PlanList.svelte';
 
-const { user } = Astro.locals;
 const cookie = Astro.request.headers.get("cookie") || "";
+let workoutPlans = [];
+let surveys = [];
 
-// 1. Fetch existing plans and survey history from Express
-// Mocking for now:
-const workoutPlans = [
-  { id: 'p1', name: 'Summer Shred 2026', isDefault: true, details: 'Focus on high-intensity cardio and core.' },
-  { id: 'p2', name: 'Bulking Phase 1', isDefault: false, details: 'Heavy compound lifts and caloric surplus.' }
-];
+if (cookie) {
+  // Fetch real plans and surveys from Express
+  const [plansRes, surveyRes] = await Promise.all([
+    fetch("http://localhost:3000/api/v1/workout", { headers: { cookie } }),
+    fetch("http://localhost:3000/api/v1/survey", { headers: { cookie } })
+  ]);
 
-const surveys = [
-  { id: 's1', date: '2026-03-15', goal: 'Weight Loss' },
-  { id: 's2', date: '2026-01-10', goal: 'Muscle Gain' }
-];
+  workoutPlans = plansRes.ok ? await plansRes.json() : [];
+  surveys = surveyRes.ok ? await surveyRes.json() : [];
+}
 ---
 
 <DashboardLayout title="Workout Plans">
@@ -25,27 +26,15 @@ const surveys = [
       <h1>Workout Plans</h1>
       <p>Manage your active routines or generate a new AI-powered plan.</p>
     </div>
-    <PlanGenerator client:load {surveys} />
+      <PlanGenerator client:load {surveys} id="gen-modal" />
   </div>
 
-  <div class="plans-grid">
-    {workoutPlans.map(plan => (
-      <PlanCard client:load {plan} />
-    ))}
-  </div>
+  <PlanList client:load initialPlans={workoutPlans} />
+
 </DashboardLayout>
 
-<style>
-  .page-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 2.5rem;
-  }
-  .page-header h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: 0.5rem; }
-  .plans-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
-  }
-</style>
+<script>
+  // Simple trigger for the generator modal
+  const btn = document.getElementById('open-gen');
+  // We can also use a Svelte 'Store' or parent component to handle this toggle
+</script>

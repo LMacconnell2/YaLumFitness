@@ -1,44 +1,29 @@
-import * as mongodb from '../database/database.ts';
-import { ObjectId } from 'mongodb';
-import type { Exercise, Workout } from './types.ts';
+import { ObjectId, Db, Collection } from "mongodb";
 
-async function getWorkoutsByUserId(userId: string): Promise<Workout[] | null> {
-  const data = await mongodb.getDb().collection<Workout>('workouts').find({
-    userId: new ObjectId(userId)
-  }).toArray()
-
-  return data;
+export interface Exercise {
+  exercise: string;
+  sets: number;
+  reps: string | number;
+  notes?: string;
 }
 
-async function getWorkoutById(id: string): Promise<Workout | null> {
-  const data = await mongodb.getDb().collection<Workout>('workouts').findOne({
-    _id: new ObjectId(id)
-  })
-
-  return data;
+export interface WorkoutDay {
+  dayName: string;
+  movements: Exercise[];
 }
 
-async function createWorkout(workout) {
-  const result = await mongodb.getDb().collection<Workout>('workouts').insertOne(workout);
-
-  return result;
+export interface WorkoutPlan {
+  _id?: ObjectId;
+  userId: ObjectId;
+  surveyId: ObjectId;
+  name: string;
+  details: string;
+  isDefault: boolean;
+  exercises: WorkoutDay[];
+  createdAt: Date;
+  updatedAt?: Date;
 }
 
-async function updateWorkout(workoutId: string, updateData: Object) {
-  const result = await mongodb.getDb().collection<Workout>('workouts').updateOne({
-    _id: new ObjectId(workoutId)
-  }, {
-    $set: updateData
-  });
-  console.log(result);
-  return result;
+export function getWorkoutCollection(db: Db): Collection<WorkoutPlan> {
+  return db.collection<WorkoutPlan>("workouts");
 }
-
-async function deleteWorkout(workoutId: string) {
-  const result = await mongodb.getDb().collection<Workout>('workouts').deleteOne({
-    _id: new ObjectId(workoutId)
-  });
-  return result;
-}
-
-export {getWorkoutsByUserId, getWorkoutById, createWorkout, updateWorkout, deleteWorkout};

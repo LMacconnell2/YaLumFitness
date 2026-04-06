@@ -10,15 +10,19 @@ type IdParams = {
 export async function newSurvey(req: Request, res: Response) {
   try {
     const db = getDb();
-    console.log("New Survey Request Body:", req.body);
+    // Better-Auth usually stores the ID in req.user.id
+    const userId = req.user?.id; 
+
+    if (!userId) return res.status(401).json({ error: "Unauthorized" });
 
     const survey = await SurveyService.createSurvey(db, {
       ...req.body,
-      userId: req.user?.id
+      userId: userId // Ensure this is explicitly set
     });
 
     res.status(201).json(survey);
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Failed to create survey" });
   }
 }
@@ -96,6 +100,7 @@ export async function updateSurveyById(req: Request<IdParams>, res: Response) {
     if (!req.user) {
       return res.status(401).json({ error: "Unauthorized" });
     }
+
     const updated = await SurveyService.updateSurvey(
       db,
       req.params.id,
@@ -104,11 +109,16 @@ export async function updateSurveyById(req: Request<IdParams>, res: Response) {
     );
 
     if (!updated) {
-      return res.status(404).json({ error: "Not found" });
+      return res.status(404).json({ error: "Not found or unauthorized" });
     }
 
     res.json(updated);
-  } catch {
+  } catch (err: any) {
+    // CRITICAL: This allows you to see the exact field failing validation in your terminal
+    console.error("Update Error Details:", err);
+    if (err.code === 121) {
+       return res.status(400).json({ error: "Document validation failed", details: err.errInfo?.details });
+    }
     res.status(500).json({ error: "Error updating survey" });
   }
 }

@@ -29,6 +29,7 @@
     "vitest": "^4.1.2"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@types/cors": "^2.8.19",
     "@types/swagger-ui-express": "^4.1.8",
     "ajv": "^8.18.0",
@@ -43,7 +44,9 @@
     "helmet": "^8.1.0",
     "mongodb": "^7.1.1",
     "morgan": "^1.10.1",
-    "swagger-ui-express": "^5.0.1"
+    "openai": "^6.33.0",
+    "swagger-ui-express": "^5.0.1",
+    "zod": "^4.3.6"
   },
   "packageManager": "pnpm@10.6.1+sha512.40ee09af407fa9fbb5fbfb8e1cb40fbb74c0af0c3e10e9224d7b53c7658528615b2c92450e74cfad91e3a2dcafe3ce4050d80bda71d757756d2ce2b66213e9a3"
 }
