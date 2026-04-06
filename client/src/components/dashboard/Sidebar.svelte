@@ -65,7 +65,7 @@
     display: flex;
     flex-direction: column;
     transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    width: 280px;
+    width: 230px;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -181,4 +181,5 @@
     font-weight: 800;
     text-transform: uppercase;
   }
+
 </style>
