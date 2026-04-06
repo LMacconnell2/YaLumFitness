@@ -56,26 +56,127 @@
 
 <style>
   .meal-card {
-    background: white; border: 1px solid #e5e7eb; padding: 1.5rem;
-    border-radius: 16px; transition: transform 0.2s;
+    background: #16161a; 
+    border: 1px solid #222; 
+    padding: 1.5rem;
+    border-radius: 16px; 
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
   }
-  .meal-card:hover { transform: translateY(-4px); }
-  .active { border: 2px solid #10b981; background: #f0fdf4; }
   
-  .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
-  .cal-count { font-size: 0.85rem; color: #6b7280; font-weight: 500; }
-  .default-badge { background: #10b981; color: white; padding: 2px 8px; border-radius: 99px; font-size: 0.7rem; font-weight: 700; }
+  .meal-card:hover { 
+    transform: translateY(-5px); 
+    border-color: #39ff14;
+    box-shadow: 0 10px 30px rgba(57, 255, 20, 0.1);
+  }
+
+  .active { 
+    border: 1px solid #39ff14; 
+    background: linear-gradient(145deg, #16161a 0%, #0d1a0d 100%);
+    box-shadow: 0 0 20px rgba(57, 255, 20, 0.1);
+  }
   
-  .desc { font-size: 0.9rem; color: #4b5563; line-height: 1.5; margin-bottom: 1.5rem; }
+  .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem; }
+  
+  h3 { color: #fff; margin: 0; font-size: 1.1rem; letter-spacing: 0.5px; }
+  
+  .cal-count { 
+    font-size: 0.8rem; 
+    color: #39ff14; 
+    font-family: monospace; 
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .default-badge { 
+    background: #39ff14; 
+    color: #000; 
+    padding: 2px 10px; 
+    border-radius: 4px; 
+    font-size: 0.65rem; 
+    font-weight: 900; 
+    text-transform: uppercase;
+    box-shadow: 0 0 10px #39ff14;
+  }
+  
+  .desc { 
+    font-size: 0.85rem; 
+    color: #888; 
+    line-height: 1.6; 
+    margin-bottom: 2rem; 
+    font-family: monospace;
+  }
   
   .card-footer { display: flex; gap: 0.75rem; }
-  button { flex: 1; padding: 0.6rem; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.85rem; }
-  .view-btn { background: #111827; color: white; border: none; }
-  .set-btn { background: white; border: 1px solid #d1d5db; color: #374151; }
+  
+  button { 
+    flex: 1; 
+    padding: 0.7rem; 
+    border-radius: 6px; 
+    cursor: pointer; 
+    font-weight: 800; 
+    font-size: 0.75rem; 
+    text-transform: uppercase;
+    transition: 0.2s;
+  }
 
-  /* Modal Styles */
-  .modal-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 200; }
-  .modal-content { background: white; padding: 2rem; border-radius: 20px; width: 450px; }
-  .meal-item { padding: 1rem 0; border-bottom: 1px solid #f3f4f6; }
-  .close-btn { width: 100%; margin-top: 2rem; background: #f3f4f6; border: none; padding: 0.8rem; border-radius: 8px; }
+  .view-btn { 
+    background: #fff; 
+    color: #000; 
+    border: none; 
+  }
+
+  .view-btn:hover { background: #00f3ff; box-shadow: 0 0 15px #00f3ff; }
+
+  .set-btn { 
+    background: transparent; 
+    border: 1px solid #444; 
+    color: #fff; 
+  }
+
+  .set-btn:hover { border-color: #39ff14; color: #39ff14; }
+
+  /* Modal Tweaks */
+  .modal-backdrop { 
+    position: fixed; inset: 0; 
+    background: rgba(0,0,0,0.9); 
+    display: flex; align-items: center; justify-content: center; 
+    z-index: 5000; 
+    backdrop-filter: blur(10px);
+  }
+
+  .modal-content { 
+    background: #0d0d0f; 
+    padding: 2.5rem; 
+    border-radius: 20px; 
+    width: 450px; 
+    border: 1px solid #333;
+    box-shadow: 0 0 50px #000;
+  }
+
+  h2 { color: #39ff14; text-transform: uppercase; letter-spacing: 2px; }
+
+  .meal-item { 
+    padding: 1.25rem 0; 
+    border-bottom: 1px solid #222; 
+    color: #ccc; 
+    font-size: 0.95rem;
+  }
+
+  .meal-item strong { color: #00f3ff; text-transform: uppercase; font-size: 0.8rem; margin-right: 0.5rem; }
+
+  .close-btn { 
+    width: 100%; 
+    margin-top: 2rem; 
+    background: transparent; 
+    border: 1px solid #444; 
+    color: #888;
+    padding: 0.8rem; 
+    border-radius: 8px; 
+    text-transform: uppercase;
+    font-weight: 800;
+  }
+
+  .close-btn:hover { border-color: #fff; color: #fff; }
 </style>

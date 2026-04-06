@@ -58,11 +58,64 @@
 {/if}
 
 <style>
-  .card { background: white; border: 1px solid #e5e7eb; padding: 1.5rem; border-radius: 12px; }
-  .is-default { border: 2px solid #6366f1; background: #f5f3ff; }
-  .badge { background: #6366f1; color: white; font-size: 0.7rem; padding: 2px 8px; border-radius: 99px; }
-  .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
-  .card-actions { display: flex; gap: 0.5rem; margin-top: 1.5rem; }
-  button { flex: 1; padding: 0.5rem; border-radius: 6px; cursor: pointer; border: 1px solid #111827; background: #111827; color: white; }
-  button.secondary { background: white; color: #111827; }
+  .card { 
+    background: #16161a; 
+    border: 1px solid #222; 
+    padding: 1.5rem; 
+    border-radius: 16px; 
+    transition: 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .is-default { 
+    border-color: #bc13fe; 
+    box-shadow: 0 0 20px rgba(188, 19, 254, 0.15);
+    background: linear-gradient(145deg, #16161a 0%, #1a1221 100%);
+  }
+
+  .badge { 
+    background: #bc13fe; 
+    color: #fff; 
+    font-size: 0.65rem; 
+    padding: 3px 10px; 
+    border-radius: 4px; 
+    text-transform: uppercase;
+    font-weight: 900;
+    letter-spacing: 1px;
+    box-shadow: 0 0 10px #bc13fe;
+  }
+
+  h3 { color: #fff; margin: 0; font-size: 1.2rem; letter-spacing: 1px; }
+
+  p { color: #888; font-size: 0.9rem; line-height: 1.5; margin: 1rem 0; }
+
+  .card-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+
+  button { 
+    flex: 1; 
+    padding: 0.7rem; 
+    border-radius: 6px; 
+    cursor: pointer; 
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    transition: 0.3s;
+  }
+
+  .primary-btn { 
+    background: #fff; 
+    color: #000; 
+    border: none; 
+  }
+
+  .primary-btn:hover { background: #00f3ff; box-shadow: 0 0 15px #00f3ff; }
+
+  .secondary { 
+    background: transparent; 
+    color: #bc13fe; 
+    border: 1px solid #bc13fe; 
+  }
+
+  .secondary:hover { background: rgba(188, 19, 254, 0.1); box-shadow: 0 0 10px #bc13fe; }
 </style>

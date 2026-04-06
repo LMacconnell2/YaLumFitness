@@ -163,33 +163,57 @@
 
 <style>
   .modal-backdrop {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.6);
-    display: flex; align-items: center; justify-content: center; z-index: 2000;
-    backdrop-filter: blur(4px);
+    position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+    display: flex; align-items: center; justify-content: center; z-index: 5000;
+    backdrop-filter: blur(10px);
   }
-  .modal-content {
-    background: white; padding: 2rem; border-radius: 12px; 
-    width: 90%; max-width: 500px;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-  }
-  header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
-  h2 { margin: 0; font-size: 1.25rem; font-weight: 700; }
-  
-  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-  .item { font-size: 0.95rem; color: #374151; }
-  
-  .edit-form { display: flex; flex-direction: column; gap: 1rem; }
-  .edit-form label { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.85rem; font-weight: 600; color: #6b7280; }
-  .edit-form input, .edit-form select { 
-    padding: 0.6rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 1rem; color: #111827;
-  }
-  
-  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
-  .close-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #9ca3af; }
-  .actions { display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 2rem; }
+  .modal-content {
+    background: #0f0f12;
+    padding: 2.5rem;
+    border-radius: 12px; 
+    width: 95%; max-width: 550px;
+    border: 1px solid #333;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+    color: #fff;
+  }
+
+  header { 
+    display: flex; justify-content: space-between; align-items: center; 
+    margin-bottom: 2rem; border-bottom: 1px solid #222; padding-bottom: 1rem;
+  }
+
+  h2 { margin: 0; font-size: 1.25rem; font-weight: 800; color: #00f3ff; text-transform: uppercase; letter-spacing: 2px; }
+
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
   
-  .btn-danger { background: #fee2e2; color: #dc2626; border: none; padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 600; cursor: pointer; }
-  .btn-primary { background: #111827; color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 600; cursor: pointer; }
-  .btn-secondary { background: #f3f4f6; color: #374151; border: none; padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 600; cursor: pointer; }
+  .item { font-size: 0.9rem; color: #ccc; }
+  .item strong { color: #555; text-transform: uppercase; font-size: 0.7rem; display: block; margin-bottom: 0.2rem; }
+  
+  .edit-form { display: flex; flex-direction: column; gap: 1.2rem; }
+  
+  label span { font-size: 0.7rem; font-weight: 700; color: #666; text-transform: uppercase; display: block; margin-bottom: 0.4rem; }
+  
+  input, select { 
+    background: #000; border: 1px solid #222; border-radius: 6px; 
+    padding: 0.8rem; font-size: 1rem; color: #39ff14; width: 100%;
+  }
+
+  input:focus, select:focus { outline: none; border-color: #39ff14; box-shadow: 0 0 10px rgba(57, 255, 20, 0.2); }
+
+  .close-btn { background: none; border: none; font-size: 2rem; cursor: pointer; color: #444; }
+  .close-btn:hover { color: #ff00e6; }
+
+  .actions { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2.5rem; }
+  
+  button { padding: 0.8rem 1.5rem; border-radius: 6px; font-weight: 800; text-transform: uppercase; cursor: pointer; transition: 0.2s; font-size: 0.8rem; }
+
+  .btn-danger { background: transparent; color: #ff3e3e; border: 1px solid #ff3e3e; }
+  .btn-danger:hover { background: rgba(255, 62, 62, 0.1); box-shadow: 0 0 10px rgba(255, 62, 62, 0.3); }
+
+  .btn-primary { background: #00f3ff; color: #000; border: none; }
+  .btn-primary:hover { box-shadow: 0 0 20px rgba(0, 243, 255, 0.5); }
+
+  .btn-secondary { background: transparent; color: #ccc; border: 1px solid #444; }
+  .btn-secondary:hover { border-color: #888; color: #fff; }
 </style>

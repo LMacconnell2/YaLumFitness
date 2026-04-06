@@ -61,17 +61,117 @@
 {/if}
 
 <style>
-  .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 3000; }
-  .modal-content { background: white; padding: 2rem; border-radius: 16px; width: 400px; }
-  .survey-selector { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.75rem; max-height: 300px; overflow-y: auto; }
-  .survey-option { 
-    display: flex; align-items: center; gap: 1rem; padding: 1rem; 
-    border: 1px solid #e5e7eb; border-radius: 8px; cursor: pointer;
+  .modal-backdrop { 
+    position: fixed; 
+    inset: 0; 
+    background: rgba(0, 0, 0, 0.85); /* Darker backdrop for focus */
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    z-index: 3000; 
+    backdrop-filter: blur(8px); /* Adds that modern glass feel */
   }
-  .survey-option.selected { border-color: #3b82f6; background: #eff6ff; }
-  .goal { display: block; font-weight: 700; }
-  .date { font-size: 0.8rem; color: #6b7280; }
-  footer { margin-top: 2rem; display: flex; gap: 1rem; }
-  .btn-primary { flex: 2; background: #111827; color: white; padding: 0.8rem; border-radius: 8px; font-weight: 600; border: none; }
-  .btn-secondary { flex: 1; background: #f3f4f6; padding: 0.8rem; border-radius: 8px; border: none; }
+
+  .modal-content { 
+    background: #111114; /* Deep noir background */
+    padding: 2rem; 
+    border-radius: 16px; 
+    width: 400px; 
+    border: 1px solid #333; /* Dark border */
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+  }
+
+  .survey-selector { 
+    margin-top: 1rem; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 0.75rem; 
+    max-height: 300px; 
+    overflow-y: auto; 
+    padding-right: 5px;
+  }
+
+  /* Custom scrollbar for the "Terminal" look */
+  .survey-selector::-webkit-scrollbar { width: 4px; }
+  .survey-selector::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+
+  .survey-option { 
+    display: flex; 
+    align-items: center; 
+    gap: 1rem; 
+    padding: 1rem; 
+    background: #000; /* Blacked out inputs */
+    border: 1px solid #222; 
+    border-radius: 8px; 
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .survey-option.selected { 
+    border-color: #00f3ff; /* Cyan glow on selection */
+    background: rgba(0, 243, 255, 0.05); 
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+  }
+
+  .goal { 
+    display: block; 
+    font-weight: 700; 
+    color: #fff; 
+  }
+
+  .date { 
+    font-size: 0.8rem; 
+    color: #666; 
+    font-family: monospace; /* Monospace for that data-entry look */
+  }
+
+  footer { 
+    margin-top: 2rem; 
+    display: flex; 
+    gap: 1rem; 
+  }
+
+  .btn-primary { 
+    flex: 2; 
+    background: #39ff14; /* Toxic green primary action */
+    color: #000; 
+    padding: 0.8rem; 
+    border-radius: 8px; 
+    font-weight: 800; 
+    border: none; 
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
+    transform: translateY(-1px);
+  }
+
+  .btn-primary:disabled {
+    background: #222;
+    color: #444;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  .btn-secondary { 
+    flex: 1; 
+    background: transparent; 
+    color: #888;
+    padding: 0.8rem; 
+    border-radius: 8px; 
+    border: 1px solid #333; 
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: 0.2s;
+  }
+
+  .btn-secondary:hover {
+    color: #fff;
+    border-color: #666;
+  }
 </style>

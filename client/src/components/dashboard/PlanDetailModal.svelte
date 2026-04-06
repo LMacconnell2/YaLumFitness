@@ -139,33 +139,59 @@
 
 <style>
   .modal-backdrop {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.6);
-    display: flex; align-items: center; justify-content: center; z-index: 4000;
-    backdrop-filter: blur(4px);
+    position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+    display: flex; align-items: center; justify-content: center; z-index: 5000;
+    backdrop-filter: blur(12px);
   }
-  .modal-content {
-    background: white; border-radius: 16px; width: 90%; max-width: 600px;
-    max-height: 85vh; display: flex; flex-direction: column; overflow: hidden;
-  }
-  header { padding: 1.5rem; border-bottom: 1px solid #f3f4f6; display: flex; justify-content: space-between; align-items: center; }
-  .scroll-body { padding: 1.5rem; overflow-y: auto; flex: 1; }
-  
-  .title-area h2 { margin: 0; font-size: 1.4rem; font-weight: 800; }
-  .edit-title { font-size: 1.4rem; font-weight: 800; border: 1px solid #d1d5db; border-radius: 4px; padding: 0.2rem 0.5rem; width: 100%; }
-  
-  .badge-active { background: #dcfce7; color: #166534; font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 12px; font-weight: 700; margin-top: 0.4rem; display: inline-block; }
-  
-  .day-card { background: #f9fafb; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border: 1px solid #e5e7eb; }
-  .day-card h4 { margin: 0 0 0.5rem 0; color: #111827; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.25rem; }
-  .day-card ul { list-style: none; padding: 0; margin: 0; }
-  .day-card li { font-size: 0.9rem; padding: 0.3rem 0; border-bottom: 1px dashed #e5e7eb; }
 
-  footer { padding: 1.25rem; border-top: 1px solid #f3f4f6; display: flex; justify-content: space-between; }
-  .right-actions { display: flex; gap: 0.5rem; }
-  
-  .btn-primary { background: #111827; color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 600; cursor: pointer; }
-  .btn-secondary { background: #f3f4f6; color: #374151; border: none; padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 600; cursor: pointer; }
-  .btn-danger { background: #fff1f2; color: #e11d48; border: none; padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 600; cursor: pointer; }
-  
-  textarea { width: 100%; height: 100px; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 6px; margin-top: 0.5rem; }
+  .modal-content {
+    background: #0d0d0f; 
+    border-radius: 20px; 
+    width: 95%; max-width: 650px;
+    max-height: 85vh; 
+    display: flex; flex-direction: column; 
+    border: 1px solid #333;
+    box-shadow: 0 0 50px rgba(0,0,0,1);
+  }
+
+  header { 
+    padding: 2rem; border-bottom: 1px solid #222; 
+    display: flex; justify-content: space-between; align-items: center; 
+  }
+
+  .title-area h2 { color: #00f3ff; text-transform: uppercase; letter-spacing: 2px; }
+
+  .scroll-body { padding: 2rem; overflow-y: auto; flex: 1; background: #0d0d0f; }
+
+  .day-card { 
+    background: #16161a; 
+    padding: 1.5rem; 
+    border-radius: 12px; 
+    margin-bottom: 1.25rem; 
+    border: 1px solid #222; 
+  }
+
+  .day-card h4 { 
+    margin: 0 0 1rem 0; 
+    color: #39ff14; 
+    text-transform: uppercase;
+    font-family: monospace;
+    border-bottom: 1px solid #222;
+    padding-bottom: 0.5rem;
+  }
+
+  .day-card li { 
+    color: #aaa; 
+    font-size: 0.95rem; 
+    padding: 0.5rem 0; 
+    border-bottom: 1px solid #1c1c21; 
+  }
+
+  .day-card li strong { color: #fff; }
+
+  footer { padding: 1.5rem; border-top: 1px solid #222; background: #0d0d0f; }
+
+  .btn-primary { background: #39ff14; color: #000; border: none; }
+  .btn-secondary { background: transparent; color: #fff; border: 1px solid #444; }
+  .btn-danger { background: transparent; color: #ff0055; border: 1px solid #ff0055; }
 </style>

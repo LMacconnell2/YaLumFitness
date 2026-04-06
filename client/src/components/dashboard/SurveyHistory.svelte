@@ -54,52 +54,72 @@
 
 <style>
   .content-card {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 12px;
-    border: 1px solid #e5e7eb;
+    background: #16161a;
+    padding: 2rem;
+    border-radius: 16px;
+    border: 1px solid #222;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   }
 
-  .survey-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
+  .card-title {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #39ff14;
+    margin-bottom: 1.5rem;
   }
+
+  .table-container { overflow-x: auto; }
+
+  .survey-table { width: 100%; border-collapse: collapse; }
 
   .survey-table th {
     text-align: left;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     text-transform: uppercase;
-    color: #9ca3af;
+    color: #555;
     padding: 1rem;
-    border-bottom: 1px solid #f3f4f6;
+    border-bottom: 2px solid #222;
+    letter-spacing: 1px;
   }
 
   .survey-table td {
-    padding: 1rem;
-    border-bottom: 1px solid #f3f4f6;
-    font-size: 0.95rem;
+    padding: 1.25rem 1rem;
+    border-bottom: 1px solid #222;
+    color: #ccc;
+    font-size: 0.9rem;
   }
 
-  .badge {
-    background: #f3f4f6;
-    padding: 0.25rem 0.6rem;
+  .date-cell { font-family: monospace; color: #888; }
+  .level-text { text-transform: capitalize; color: #fff; font-weight: 600; }
+
+  .neon-badge-blue {
+    background: rgba(0, 243, 255, 0.1);
+    color: #00f3ff;
+    padding: 0.3rem 0.7rem;
     border-radius: 4px;
-    font-size: 0.8rem;
-    font-weight: 600;
+    border: 1px solid rgba(0, 243, 255, 0.3);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
   }
 
-  .text-btn {
-    background: none;
-    border: none;
-    color: #3b82f6;
-    font-weight: 600;
+  .view-btn {
+    background: transparent;
+    border: 1px solid #ff00e6;
+    color: #ff00e6;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
     cursor: pointer;
+    transition: 0.3s;
   }
 
-  .empty-state {
-    padding: 2rem;
-    text-align: center;
-    color: #6b7280;
+  .view-btn:hover {
+    background: rgba(255, 0, 230, 0.1);
+    box-shadow: 0 0 10px rgba(255, 0, 230, 0.4);
   }
+
+  .empty-state { padding: 3rem; text-align: center; color: #555; font-style: italic; }
 </style>

@@ -4,26 +4,17 @@ import DashboardLayout from '../../../layouts/DashboardLayout.astro';
 import ProfileManager from '../../../components/dashboard/ProfileManager.svelte';
 
 const { user } = Astro.locals;
-console.log("User in profile page:", user);
-
-// Forward auth cookie to your API
 const cookie = Astro.request.headers.get("cookie") || "";
 
 let profileDetails = null;
-let showModal = false;
 
 try {
   const res = await fetch("http://localhost:3000/api/v1/users/profile", {
-    headers: {
-      cookie
-    }
+    headers: { cookie }
   });
 
   if (res.ok) {
     profileDetails = await res.json();
-    console.log("Fetched profile details:", profileDetails);
-  } else {
-    console.error("Failed to fetch profile");
   }
 } catch (err) {
   console.error("Error fetching profile:", err);
@@ -34,11 +25,12 @@ try {
   <div class="profile-header">
     <div class="avatar-large">
       {user?.name?.charAt(0) || 'U'}
+      <div class="avatar-glow"></div>
     </div>
     <div class="header-text">
-      <h1>{user?.name || 'User'}</h1>
+      <h1><span class="neon-text">{user?.name || 'User'}</span></h1>
       <p>
-        Member since {
+        System initialized {
           profileDetails?.createdAt
             ? new Date(profileDetails.createdAt).toLocaleDateString("en-US", {
                 year: "numeric",
@@ -53,172 +45,208 @@ try {
 
   <div class="profile-grid">
     <div class="profile-card">
-      <h3>Account Information</h3>
+      <h3><span class="neon-text-blue">Core Identity</span></h3>
       <div class="info-group">
         <label>Full Name</label>
         <p>{user?.name}</p>
       </div>
       <div class="info-group">
-        <label>Email Address</label>
+        <label>Comm-Link (Email)</label>
         <p>{user?.email}</p>
       </div>
       <div class="info-group">
-        <label>Password</label>
+        <label>Security Key</label>
         <p>••••••••••••</p>
-        <a href="#" class="change-link">Change Password</a>
+        <a href="#" class="change-link">Update Security Protocol</a>
       </div>
     </div>
 
     <div class="profile-card">
-      <h3>Physical Stats</h3>
+      <h3><span class="neon-text-green">Biometric Stats</span></h3>
       <div class="stats-row">
         <div class="info-group">
           <label>Height</label>
-          <p>{profileDetails?.height || "Not set"}</p>
+          <p>{profileDetails?.height || "Pending Scan"}</p>
         </div>
         <div class="info-group">
-          <label>Current Weight</label>
-          <p>{profileDetails?.currentWeight || "Not set"}</p>
+          <label>Current Mass</label>
+          <p>{profileDetails?.currentWeight || "Pending Scan"}</p>
         </div>
       </div>
       <div class="info-group">
-        <label>Primary Goal</label>
+        <label>Primary Mission</label>
         <div class="goal-tag">
-          {profileDetails?.fitnessGoal || "Not set"}
+          {profileDetails?.fitnessGoal || "Undefined"}
         </div>
       </div>
     </div>
 
     <div class="profile-card full-width">
-      <h3>Connected Apps</h3>
+      <h3><span class="neon-text-pink">External Uplinks</span></h3>
       <div class="connection-item">
         <div class="service">
           <span class="icon">⌚</span>
           <div>
-            <strong>Apple Health / Google Fit</strong>
-            <p>Sync your daily steps and heart rate</p>
+            <strong>Bio-Sync Hub</strong>
+            <p>Integrate Apple Health or Google Fit for real-time telemetry</p>
           </div>
         </div>
-        <button class="btn-outline">Connect</button>
+        <button class="btn-neon-outline">Establish Connection</button>
       </div>
     </div>
   </div>
 </DashboardLayout>
 
 <style>
+  /* Header Section */
   .profile-header {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    border: 1px solid #e5e7eb;
-    margin-bottom: 2rem;
+    gap: 2rem;
+    background: #16161a !important;
+    padding: 2.5rem;
+    border-radius: 16px;
+    border: 1px solid #222;
+    margin-bottom: 2.5rem;
+    position: relative;
+    overflow: hidden;
   }
 
   .avatar-large {
-    width: 80px;
-    height: 80px;
-    background: #111827;
-    color: white;
+    width: 100px;
+    height: 100px;
+    background: #000;
+    color: #00f3ff;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
-    font-weight: 700;
+    font-size: 2.5rem;
+    font-weight: 900;
     border-radius: 50%;
+    border: 2px solid #00f3ff;
+    position: relative;
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
   }
 
-  .header-text h1 { font-size: 1.5rem; font-weight: 800; margin: 0; }
-  .header-text p { color: #6b7280; margin: 0.25rem 0 0; }
+  .avatar-glow {
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 243, 255, 0.2) 0%, transparent 70%);
+  }
 
+  .header-text h1 { font-size: 2rem; font-weight: 800; margin: 0; color: #fff; }
+  .header-text p { color: #888; margin-top: 0.5rem; font-family: monospace; font-size: 0.9rem; }
+
+  /* Grid & Cards */
   .profile-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
+    gap: 2rem;
   }
 
   .profile-card {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 12px;
-    border: 1px solid #e5e7eb;
+    background: #16161a;
+    padding: 2rem;
+    border-radius: 16px;
+    border: 1px solid #222;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+
+  .profile-card:hover {
+    border-color: #333;
+    transform: translateY(-4px);
   }
 
   .full-width { grid-column: span 2; }
 
   .profile-card h3 {
-    font-size: 1rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid #f3f4f6;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #222;
+    text-transform: uppercase;
+    letter-spacing: 2px;
   }
 
-  .info-group { margin-bottom: 1.25rem; }
+  /* Info Groups */
+  .info-group { margin-bottom: 1.5rem; }
   .info-group label {
     display: block;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: #9ca3af;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #666;
     text-transform: uppercase;
-    margin-bottom: 0.25rem;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
   }
-  .info-group p { font-weight: 500; color: #111827; margin: 0; }
+  .info-group p { font-size: 1.1rem; font-weight: 500; color: #eee; margin: 0; }
 
-  .stats-row { display: grid; grid-template-columns: 1fr 1fr; }
+  .stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
   .goal-tag {
     display: inline-block;
-    background: #eff6ff;
-    color: #1e40af;
-    padding: 0.25rem 0.75rem;
-    border-radius: 99px;
+    background: rgba(57, 255, 20, 0.1);
+    color: #39ff14;
+    padding: 0.4rem 1rem;
+    border-radius: 4px;
     font-size: 0.85rem;
-    font-weight: 600;
+    font-weight: 700;
+    border: 1px solid rgba(57, 255, 20, 0.3);
+    box-shadow: 0 0 10px rgba(57, 255, 20, 0.1);
   }
 
-  .change-link { font-size: 0.85rem; color: #3b82f6; text-decoration: none; }
+  .change-link { 
+    font-size: 0.8rem; 
+    color: #ff00e6; 
+    text-decoration: none; 
+    margin-top: 0.5rem; 
+    display: inline-block;
+    transition: 0.2s;
+  }
+  .change-link:hover { text-shadow: 0 0 8px #ff00e6; }
 
+  /* Connected Apps Section */
   .connection-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
-    background: #f9fafb;
-    border-radius: 8px;
+    padding: 1.5rem;
+    background: #000;
+    border-radius: 12px;
+    border: 1px solid #333;
   }
 
-  .service { display: flex; gap: 1rem; align-items: center; }
-  .service .icon { font-size: 1.5rem; }
-  .service p { font-size: 0.85rem; color: #6b7280; margin: 0; }
+  .service { display: flex; gap: 1.5rem; align-items: center; }
+  .service .icon { font-size: 2rem; filter: drop-shadow(0 0 5px #00f3ff); }
+  .service strong { color: #fff; font-size: 1rem; display: block; margin-bottom: 0.25rem; }
+  .service p { font-size: 0.85rem; color: #777; margin: 0; }
 
-  .btn-primary {
-    margin-left: auto;
-    background: #111827;
-    color: white;
-    border: none;
-    padding: 0.6rem 1.2rem;
-    border-radius: 6px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-
-  .btn-outline {
-    background: white;
-    border: 1px solid #d1d5db;
-    padding: 0.5rem 1rem;
+  /* Buttons */
+  .btn-neon-outline {
+    background: transparent;
+    border: 1px solid #00f3ff;
+    color: #00f3ff;
+    padding: 0.7rem 1.5rem;
     border-radius: 6px;
     font-size: 0.85rem;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
+    transition: 0.3s;
+    text-transform: uppercase;
   }
 
+  .btn-neon-outline:hover {
+    background: rgba(0, 243, 255, 0.1);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
+  }
+
+  /* Responsive Fixes */
   @media (max-width: 1024px) {
     .profile-grid { grid-template-columns: 1fr; }
     .full-width { grid-column: span 1; }
-    .profile-header { flex-direction: column; text-align: center; }
-    .btn-primary { margin: 0; width: 100%; }
+    .profile-header { flex-direction: column; text-align: center; padding: 2rem; }
+    .connection-item { flex-direction: column; gap: 1.5rem; text-align: center; }
+    .service { flex-direction: column; }
   }
 </style>
