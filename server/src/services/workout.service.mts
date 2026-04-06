@@ -97,3 +97,33 @@ export async function deletePlan(db: Db, planId: string, userId: string) {
     userId: new ObjectId(userId) 
   });
 }
+
+export async function getUserPlans(db: Db, userId: string) {
+  try {
+    // We convert the string userId to an ObjectId to match MongoDB's format
+    const workouts = await getWorkoutCollection(db)
+      .find({ userId: new ObjectId(userId) })
+      .sort({ createdAt: -1 }) // Show newest plans first
+      .toArray();
+    
+    return workouts;
+  } catch (error) {
+    console.error("Error in getUserPlans service:", error);
+    throw error;
+  }
+}
+
+/**
+ * Fetch a single plan by ID, ensuring it belongs to the user for security
+ */
+export async function getPlanById(db: Db, planId: string, userId: string) {
+  try {
+    return await getWorkoutCollection(db).findOne({
+      _id: new ObjectId(planId),
+      userId: new ObjectId(userId)
+    });
+  } catch (error) {
+    console.error("Error in getPlanById service:", error);
+    throw error;
+  }
+}

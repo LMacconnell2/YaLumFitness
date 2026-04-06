@@ -21,20 +21,25 @@ export async function generateWorkout(req: Request, res: Response) {
 }
 
 export async function getAllPlans(req: Request, res: Response) {
+  console.log(`🔍 [GET] /all-plans - Fetching for user: ${req.user?.id}`);
   try {
     const plans = await WorkoutService.getUserPlans(getDb(), req.user!.id);
+    console.log(`📊 Found ${plans.length} plans`);
     res.json(plans);
-  } catch (err) {
+  } catch (err: any) {
+    console.error("❌ Fetch All Plans Error:", err.message);
     res.status(500).json({ error: "Failed to fetch plans" });
   }
 }
 
 export async function getPlan(req: Request, res: Response) {
+  console.log(`🔍 [GET] /plans/${req.params.id} - Fetching for user: ${req.user?.id}`);
   try {
     const plan = await WorkoutService.getPlanById(getDb(), req.params.id, req.user!.id);
     if (!plan) return res.status(404).json({ error: "Plan not found" });
     res.json(plan);
-  } catch (err) {
+  } catch (err: any) {
+    console.error("❌ Fetch Plan Error:", err.message);
     res.status(500).json({ error: "Error fetching plan" });
   }
 }

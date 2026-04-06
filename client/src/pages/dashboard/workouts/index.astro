@@ -15,8 +15,8 @@ if (cookie) {
     fetch("http://localhost:3000/api/v1/survey", { headers: { cookie } })
   ]);
 
-  if (plansRes.ok) workoutPlans = await plansRes.ok ? await plansRes.json() : [];
-  if (surveyRes.ok) surveys = await surveyRes.json();
+  workoutPlans = plansRes.ok ? await plansRes.json() : [];
+  surveys = surveyRes.ok ? await surveyRes.json() : [];
 }
 ---
 

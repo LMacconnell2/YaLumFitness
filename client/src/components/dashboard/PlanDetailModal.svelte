@@ -21,11 +21,12 @@
       if (res.ok) {
         plan = await res.json();
         editData = { 
-          name: plan.name, 
-          details: plan.details, 
-          isDefault: plan.isDefault 
+            name: plan.name, 
+            // Fallback to plan.notes if details is undefined
+            details: plan.notes || plan.details || "", 
+            isDefault: plan.isDefault || false 
         };
-      }
+        }
     } catch (err) {
       console.error("Fetch error:", err);
     } finally {
