@@ -6,10 +6,10 @@ import SettingsManager from '../../../components/dashboard/SettingsManager.svelt
 const { user } = Astro.locals;
 ---
 
-<DashboardLayout title="Settings">
+<DashboardLayout title="System Settings">
   <div class="settings-header">
-    <h1>Settings</h1>
-    <p>Manage your account preferences and application limits.</p>
+    <h1>System <span class="neon-text-magenta">Configuration</span></h1>
+    <p class="subtitle">Modify user parameters and interface protocols.</p>
   </div>
 
   <div class="settings-container">
@@ -19,12 +19,34 @@ const { user } = Astro.locals;
 
 <style>
   .settings-header {
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #222;
   }
-  .settings-header h1 { font-size: 1.8rem; font-weight: 800; color: #111827; }
-  .settings-header p { color: #6b7280; margin-top: 0.5rem; }
+  
+  .settings-header h1 { 
+    font-size: 2.2rem; 
+    font-weight: 800; 
+    color: #fff; 
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .neon-text-magenta {
+    color: #ff00e6;
+    text-shadow: 0 0 15px rgba(255, 0, 230, 0.5);
+  }
+
+  .subtitle { 
+    color: #666; 
+    margin-top: 0.5rem; 
+    font-family: monospace;
+    font-size: 0.9rem;
+  }
 
   .settings-container {
-    max-width: 600px;
+    max-width: 650px;
+    /* Adding a subtle glow to the container area */
+    position: relative;
   }
 </style>
