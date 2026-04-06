@@ -107,37 +107,48 @@ export async function createCollections(db: Db): Promise<void> {
   await db.collection('exercises').createIndex({ name: 1 }, { unique: true });
 
   // ── Workouts ───────────────────────────────────────────────────────────────
-  await db.createCollection('workouts', {
-    validator: {
-      $jsonSchema: {
-        bsonType: 'object',
-        required: ['userId', 'name', 'date', 'duration', 'workoutType', 'exercises'],
-        properties: {
-          userId:      { bsonType: 'objectId' },
-          name:        { bsonType: 'string' },
-          date:        { bsonType: 'date' },
-          duration:    { bsonType: 'number' },
-          workoutType: { bsonType: 'string' },
-          notes:       { bsonType: 'string' },
-          exercises: {
-            bsonType: 'array',
-            items: {
-              bsonType: 'object',
-              required: ['name', 'sets', 'reps', 'intensity'],
-              properties: {
-                exerciseId: { bsonType: 'objectId' },
-                name:       { bsonType: 'string' },
-                weight:     { bsonType: ['number', 'null'] },
-                sets:       { bsonType: 'number' },
-                reps:       { bsonType: 'number' },
-                intensity:  { bsonType: 'number', minimum: 1, maximum: 10 },
-              },
-            },
-          },
-        },
-      },
-    },
-  });
+ // ── Workouts ───────────────────────────────────────────────────────────────
+await db.createCollection('workouts', {
+  validator: {
+    $jsonSchema: {
+      bsonType: 'object',
+      // Removed 'date' and 'duration' from required because AI plans are templates, not logs
+      required: ['userId', 'name', 'exercises'], 
+      properties: {
+        userId:      { bsonType: 'objectId' },
+        surveyId:    { bsonType: 'objectId' }, // Added to track which survey built this
+        name:        { bsonType: 'string' },
+        createdAt:   { bsonType: 'date' },
+        updatedAt:   { bsonType: 'date' },
+        notes:       { bsonType: 'string' },
+        // We'll change the structure to match our "Day 1", "Day 2" format
+        exercises: {
+          bsonType: 'array',
+          items: {
+            bsonType: 'object',
+            required: ['dayName', 'movements'],
+            properties: {
+              dayName: { bsonType: 'string' }, // e.g., "Day 1: Upper Body"
+              movements: {
+                bsonType: 'array',
+                items: {
+                  bsonType: 'object',
+                  required: ['exercise', 'sets', 'reps'],
+                  properties: {
+                    exercise: { bsonType: 'string' },
+                    sets:     { bsonType: 'number' },
+                    reps:     { bsonType: ['string', 'number'] }, // Allow "12" or "12-15"
+                    notes:    { bsonType: 'string' }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+});
   await db.collection('workouts').createIndex({ userId: 1, date: -1 });
 
 

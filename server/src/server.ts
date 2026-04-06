@@ -8,6 +8,8 @@ import { toNodeHandler } from "better-auth/node";
 
 dotenv.config();
 
+console.log("Checking API Key:", process.env.OPENAI_API_KEY ? "Found" : "NOT FOUND");
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 

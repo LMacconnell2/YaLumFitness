@@ -68,7 +68,7 @@
 
 {#if show}
 <div class="modal-backdrop" onclick={() => show = false} role="presentation">
-  <div class="modal-content" onclick|stopPropagation role="presentation">
+  <div class="modal-content" onclick={(e) => e.stopPropagation()} role="presentation">
     {#if loading}
       <div class="loader">Generating details...</div>
     {:else if plan}

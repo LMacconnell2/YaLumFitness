@@ -1,7 +1,7 @@
 ---
 export const prerender = false;
 import DashboardLayout from '../../../layouts/DashboardLayout.astro';
-import PlanGeneratorModal from '../../../components/dashboard/PlanGeneratorModal.svelte';
+import PlanGenerator from '../../../components/dashboard/PlanGenerator.svelte';
 import PlanList from '../../../components/dashboard/PlanList.svelte';
 
 const cookie = Astro.request.headers.get("cookie") || "";
@@ -26,12 +26,11 @@ if (cookie) {
       <h1>Workout Plans</h1>
       <p>Manage your active routines or generate a new AI-powered plan.</p>
     </div>
-    <button class="btn-generate" id="open-gen">Generate New Plan</button>
+      <PlanGenerator client:load {surveys} id="gen-modal" />
   </div>
 
   <PlanList client:load initialPlans={workoutPlans} />
 
-  <PlanGeneratorModal client:load {surveys} id="gen-modal" />
 </DashboardLayout>
 
 <script>

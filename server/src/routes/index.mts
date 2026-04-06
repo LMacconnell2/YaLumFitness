@@ -8,7 +8,7 @@ import foodRouter from './food.route.mts'
 
 const router:Router = Router();
 
-router.use('/workouts', workoutRouter);
+router.use('/workout', workoutRouter);
 router.use('/exercises', exerciseRouter);
 router.use('/survey', surveyRouter);
 router.use('/users', userRouter); // Uncomment this line when user routes are implemented

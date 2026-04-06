@@ -15,7 +15,7 @@
       <span class="badge">Default</span>
     {/if}
   </div>
-  <p>{plan.details.substring(0, 60)}...</p>
+  <p>{(plan.notes || plan.details || "").substring(0, 100)}...</p>
   
   <div class="card-actions">
     <button onclick={() => showDetails = true}>View Details</button>
