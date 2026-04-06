@@ -10,6 +10,7 @@ type IdParams = {
 export async function newSurvey(req: Request, res: Response) {
   try {
     const db = getDb();
+    console.log("New Survey Request Body:", req.body);
 
     const survey = await SurveyService.createSurvey(db, {
       ...req.body,

@@ -14,16 +14,36 @@
 
   async function handleSubmit(e: SubmitEvent) {
     e.preventDefault();
-    console.log("Submitting:", formData);
-    
-    // Replace with your fetch to Express
-    // const res = await fetch('/api/v1/surveys', { ... })
-    
-    show = false;
-    if (isInitial) {
-      window.location.href = "/dashboard";
-    } else {
-      window.location.reload();
+
+    try {
+      const res = await fetch("http://localhost:3000/api/v1/survey", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: "include",
+        body: JSON.stringify(formData)
+      });
+
+      if (!res.ok) {
+        const error = await res.json();
+        console.error("Error:", error);
+        return;
+      }
+
+      const data = await res.json();
+      console.log("Created survey:", data);
+
+      show = false;
+
+      if (isInitial) {
+        window.location.href = "/dashboard";
+      } else {
+        window.location.reload();
+      }
+
+    } catch (err) {
+      console.error("Request failed:", err);
     }
   }
 </script>

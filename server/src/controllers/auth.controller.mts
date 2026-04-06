@@ -2,22 +2,24 @@ import { auth } from "../services/auth.service.mts";
 
 export default async function requireAuth(req, res, next) {
   try {
-    const session = await auth.api.getSession({
+    const sessionData = await auth.api.getSession({
       headers: req.headers
     });
 
-    if (!session) {
+    if (!sessionData?.user) {
       return res.status(401).json({ error: "Unauthorized" });
     }
 
-    // Attach user to request
+    // 🔥 THIS is the missing link
     req.user = {
-      id: session.user.id,
-      email: session.user.email
+      id: sessionData.user.id,
+      email: sessionData.user.email,
+      name: sessionData.user.name
     };
 
     next();
   } catch (err) {
-    res.status(401).json({ error: "Invalid session" });
+    console.error("Auth error:", err);
+    return res.status(401).json({ error: "Auth failed" });
   }
 }

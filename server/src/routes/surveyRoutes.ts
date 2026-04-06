@@ -8,6 +8,10 @@ const router: Router = Router();
 // This will retrieve the route for the current user's surveys which can be filtered and paginated.
 router.get("/", requireAuth, getCurrentUserSurvey);
 
+// POST /survey/
+// This will be the route to add a new survey result to the DB.
+router.post("/", requireAuth, newSurvey);
+
 // GET /survey/results?q=string&limit=10&offset=10&stardate=mm-dd-yyyy&enddate=mm-dd-yyy
 // This will display surveys based upon search, startdate, enddate, offset and limit.
 router.get("/results", requireAuth, getSurveyResults);
@@ -23,9 +27,5 @@ router.delete("/results/:id", requireAuth, deleteSurveyById);
 // POST /survey/results/:id
 // This will update a survey based upon its ID.
 router.post("/results/:id", requireAuth, updateSurveyById);
-
-// POST /survey/
-// This will be the route to add a new survey result to the DB.
-router.post("/", requireAuth, newSurvey);
 
 export default router;
