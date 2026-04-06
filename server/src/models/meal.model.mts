@@ -87,19 +87,20 @@ async function deleteMeal(mealId: string) {
   return result;
 } 
 
-async function calTotalMacros(foodItems: { foodId: string; servingNum: number }[]): Promise<{ calories: number; protein: number; carbs: number; fats: number }> {
-  console.log('Calculating total macros for food items:', foodItems);
+async function calTotalMacros(foodItems: { foodId: any; servingNum: number }[]): Promise<{ calories: number; protein: number; carbs: number; fats: number }> {
   let totalCalories = 0;
   let totalProtein = 0;
   let totalCarbs = 0;
   let totalFats = 0;
 
   for (const foodItem of foodItems) {
-    // Assuming you have a function to get food details by ID
-    console.log(`Fetching food details for foodId: ${foodItem.foodId}`);
-    const food = await getFoodById(new ObjectId(foodItem.foodId));
+    // Handle foodId whether it's already an ObjectId or still a string
+    const foodId = foodItem.foodId instanceof ObjectId
+      ? foodItem.foodId
+      : new ObjectId(foodItem.foodId);
+
+    const food = await getFoodById(foodId);
     if (food) {
-      console.log(`Food details for ${food.name}`);
       totalCalories += food.calories * foodItem.servingNum;
       totalProtein += food.protein * foodItem.servingNum;
       totalCarbs += food.carbs * foodItem.servingNum;

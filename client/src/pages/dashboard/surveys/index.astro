@@ -1,0 +1,66 @@
+---
+export const prerender = false;
+import DashboardLayout from '../../../layouts/DashboardLayout.astro';
+import SurveyManager from '../../../components/dashboard/SurveyManager.svelte';
+import SurveyHistory from '../../../components/dashboard/SurveyHistory.svelte';
+
+const cookie = Astro.request.headers.get("cookie");
+
+let surveyHistory = [];
+let fetchError = false;
+
+if (cookie) {
+  try {
+    const res = await fetch("http://localhost:3000/api/v1/survey/", {
+      headers: { 
+        "cookie": cookie // Forward the browser's session cookie to Express
+      }
+    });
+    
+    if (res.ok) {
+      surveyHistory = await res.json();
+    } else if (res.status === 401) {
+       // If the backend says unauthorized, the cookie might be expired
+       return Astro.redirect('/login');
+    }
+  } catch (err) {
+    console.error("Connection to backend failed:", err);
+    fetchError = true;
+  }
+} else {
+  // No cookie found at all? Send them back to login
+  return Astro.redirect('/login');
+}
+---
+
+<DashboardLayout title="My Surveys">
+  <div class="page-header">
+    <div>
+      <h1>Fitness Assessments</h1>
+      <p>View your past results or take a new assessment to update your plan.</p>
+    </div>
+    <SurveyManager client:load />
+  </div>
+
+  <section class="history-section">
+    <SurveyHistory client:load history={surveyHistory} />
+  </section>
+</DashboardLayout>
+
+<style>
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid #222;
+    padding-bottom: 1.5rem;
+  }
+
+  .page-header h1 { font-size: 2rem; font-weight: 800; color: #fff; margin: 0; }
+  .subtitle { color: #888; margin-top: 0.5rem; font-family: monospace; }
+
+  @media (max-width: 768px) {
+    .page-header { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+  }
+</style>

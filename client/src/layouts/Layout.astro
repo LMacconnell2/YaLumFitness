@@ -1,11 +1,32 @@
 ---
+export const prerender = false;
 import '../css/app.css';
+import Header from '../components/general/Header.svelte';
+import Footer from '../components/general/Footer.svelte';
+
 const { title } = Astro.props;
+const { user } = Astro.locals;
+const isLoggedIn = !!user;
 ---
 <html lang="en">
   <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
   </head>
   <body>
-    <slot /> </body>
+      <Header client:load {isLoggedIn} {user} />
+      
+      <slot />
+      
+      <Footer client:load />
+  </body>
 </html>
+
+<style>
+  body {
+    min-height: 100vh;
+    min-width: 100vw;
+    margin: 0px;
+  }
+</style>

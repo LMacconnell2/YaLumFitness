@@ -1,0 +1,58 @@
+---
+export const prerender = false;
+import DashboardLayout from '../../../layouts/DashboardLayout.astro';
+import PlanGenerator from '../../../components/dashboard/PlanGenerator.svelte';
+import PlanList from '../../../components/dashboard/PlanList.svelte';
+
+const cookie = Astro.request.headers.get("cookie") || "";
+let workoutPlans = [];
+let surveys = [];
+
+if (cookie) {
+  // Fetch real plans and surveys from Express
+  const [plansRes, surveyRes] = await Promise.all([
+    fetch("http://localhost:3000/api/v1/workout", { headers: { cookie } }),
+    fetch("http://localhost:3000/api/v1/survey", { headers: { cookie } })
+  ]);
+
+  workoutPlans = plansRes.ok ? await plansRes.json() : [];
+  surveys = surveyRes.ok ? await surveyRes.json() : [];
+}
+---
+
+<DashboardLayout title="Workout Plans">
+  <div class="page-header">
+    <div>
+      <h1>Workout Plans</h1>
+      <p>Manage your active routines or generate a new AI-powered plan.</p>
+    </div>
+      <PlanGenerator client:load {surveys} id="gen-modal" />
+  </div>
+
+  <PlanList client:load initialPlans={workoutPlans} />
+
+</DashboardLayout>
+
+<script>
+  // Simple trigger for the generator modal
+  const btn = document.getElementById('open-gen');
+  // We can also use a Svelte 'Store' or parent component to handle this toggle
+</script>
+
+<style>
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #222;
+  }
+
+  .page-header h1 { font-size: 2.2rem; font-weight: 800; color: #fff; margin: 0; }
+  .subtitle { color: #666; font-family: monospace; margin-top: 0.5rem; }
+
+  @media (max-width: 768px) {
+    .page-header { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+  }
+</style>
