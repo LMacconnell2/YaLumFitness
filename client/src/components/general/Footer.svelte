@@ -22,18 +22,5 @@
 </footer>
 
 <style>
-  .site-footer {
-    padding: 3rem 2rem 1rem;
-    background: #f4f4f4;
-    margin-top: auto; /* Pushes footer to bottom if using flex-col layout */
-  }
-  .footer-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    margin-bottom: 2rem;
-  }
-  h5 { margin-bottom: 0.5rem; }
-  a { display: block; color: #666; font-size: 0.9rem; margin-bottom: 0.25rem; }
-  .copyright { text-align: center; font-size: 0.8rem; color: #999; }
+  @import "../../css/general.css"; /* Assuming you have a CSS file for header styles */
 </style>

@@ -29,7 +29,7 @@
 
 <header class="site-header">
   <div class="logo">
-    <a href="/">FITNESS TRACKER</a>
+    <a href="/">YALUM FITNESS</a>
   </div>
   
   <nav>
@@ -50,42 +50,6 @@
 <LoginModal bind:isOpen={showLogin} onClose={() => (showLogin = false)} />
 
 <style>
-  .site-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    border-bottom: 1px solid #eee;
-  }
-  nav {
-    display: flex;
-    gap: 1.5rem;
-    align-items: center;
-  }
-  .login-trigger {
-    background: #000;
-    color: #fff;
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background 0.2s;
-  }
-  .login-trigger:hover {
-    background: #333;
-  }
-  .logout-link {
-    background: none;
-    border: none;
-    color: #666;
-    cursor: pointer;
-    font-size: 1rem;
-    padding: 0;
-  }
-  .logout-link:hover {
-    color: #e11d48;
-    text-decoration: underline;
-  }
+  @import "../../css/general.css"; /* Assuming you have a CSS file for header styles */
 </style>
 
