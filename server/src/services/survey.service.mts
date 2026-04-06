@@ -4,15 +4,36 @@ import type { Survey } from "../models/survey.model.mts";
 
 
 // CREATE
-export async function createSurvey(db: Db, data: Survey) {
+export async function createSurvey(db: Db, data: any) {
   const collection = getSurveyCollection(db);
 
   const survey: Survey = {
-    ...data,
+    // 1. Convert userId string to ObjectId
     userId: new ObjectId(data.userId),
+
+    // 2. Map standard strings
+    goal: data.goal,
+    fitnessLevel: data.fitnessLevel, // Must be 'beginner', 'intermediate', or 'advanced'
+    experienceLevel: data.experienceLevel,
+    equipmentAccess: data.equipmentAccess,
+
+    // 3. FORCE Number types (Crucial for validation)
+    age: Number(data.age),
+    availableTimePerWeek: Number(data.availableTimePerWeek),
+
+    // 4. Convert comma-separated strings to Arrays (if applicable)
+    dietaryRestrictions: Array.isArray(data.dietaryRestrictions) 
+      ? data.dietaryRestrictions 
+      : data.dietaryRestrictions ? data.dietaryRestrictions.split(',').map((s: string) => s.trim()) : [],
+    
+    healthConditions: Array.isArray(data.healthConditions) 
+      ? data.healthConditions 
+      : data.healthConditions ? data.healthConditions.split(',').map((s: string) => s.trim()) : [],
+
     createdAt: new Date()
   };
 
+  // Perform the insert
   const result = await collection.insertOne(survey);
   return { ...survey, _id: result.insertedId };
 }
@@ -69,29 +90,49 @@ export async function deleteSurvey(
 
 
 // UPDATE (ownership enforced)
+// UPDATE (ownership enforced)
+// UPDATE (survey.service.mts)
 export async function updateSurvey(
   db: Db,
   id: string,
   userId: string,
-  data: Partial<Survey>
+  data: any
 ) {
   const collection = getSurveyCollection(db);
 
-  return await collection.findOneAndUpdate(
+  // Helper to ensure we always have an array of strings
+  const parseArray = (val: any) => {
+    if (!val) return [];
+    if (Array.isArray(val)) return val;
+    return val.split(',').map((s: string) => s.trim()).filter(Boolean);
+  };
+
+  // 1. Manually extract ONLY the fields allowed by your Survey model
+  // This automatically strips out _id, userId, and createdAt which shouldn't be updated
+  const cleanedData = {
+    goal: String(data.goal),
+    fitnessLevel: data.fitnessLevel, // 'beginner' | 'intermediate' | 'advanced'
+    experienceLevel: String(data.experienceLevel),
+    equipmentAccess: data.equipmentAccess, // 'home' | 'gym' | 'minimal'
+    age: Number(data.age),
+    availableTimePerWeek: Number(data.availableTimePerWeek),
+    dietaryRestrictions: parseArray(data.dietaryRestrictions),
+    healthConditions: parseArray(data.healthConditions),
+    updatedAt: new Date()
+  };
+
+  console.log("Cleaned Update Payload:", cleanedData);
+
+  const result = await collection.findOneAndUpdate(
     {
       _id: new ObjectId(id),
       userId: new ObjectId(userId)
     },
-    {
-      $set: {
-        ...data,
-        updatedAt: new Date()
-      }
-    },
-    {
-      returnDocument: "after"
-    }
+    { $set: cleanedData },
+    { returnDocument: "after" }
   );
+
+  return result;
 }
 
 

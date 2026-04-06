@@ -1,18 +1,33 @@
 ---
+export const prerender = false;
 import DashboardLayout from '../../../layouts/DashboardLayout.astro';
-const { user } = Astro.locals;
+import ProfileManager from '../../../components/dashboard/ProfileManager.svelte';
 
+const { user } = Astro.locals;
+console.log("User in profile page:", user);
+
+// Forward auth cookie to your API
 const cookie = Astro.request.headers.get("cookie") || "";
 
-// In a real app, you'd fetch the extended profile (bio, goal, height) 
-// from your MongoDB /api/v1/users/profile endpoint.
-const profileDetails = {
-  joinedDate: "January 2024",
-  fitnessGoal: "Weight Loss",
-  height: "5'11\"",
-  startingWeight: "210 lbs",
-  currentWeight: "185 lbs",
-};
+let profileDetails = null;
+let showModal = false;
+
+try {
+  const res = await fetch("http://localhost:3000/api/v1/users/profile", {
+    headers: {
+      cookie
+    }
+  });
+
+  if (res.ok) {
+    profileDetails = await res.json();
+    console.log("Fetched profile details:", profileDetails);
+  } else {
+    console.error("Failed to fetch profile");
+  }
+} catch (err) {
+  console.error("Error fetching profile:", err);
+}
 ---
 
 <DashboardLayout title="My Profile">
@@ -22,9 +37,18 @@ const profileDetails = {
     </div>
     <div class="header-text">
       <h1>{user?.name || 'User'}</h1>
-      <p>Member since {profileDetails.joinedDate}</p>
+      <p>
+        Member since {
+          profileDetails?.createdAt
+            ? new Date(profileDetails.createdAt).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long"
+              })
+            : "N/A"
+        }
+      </p>
     </div>
-    <button class="btn-primary">Edit Profile</button>
+    <ProfileManager client:load user={user} profile={profileDetails} />
   </div>
 
   <div class="profile-grid">
@@ -50,16 +74,18 @@ const profileDetails = {
       <div class="stats-row">
         <div class="info-group">
           <label>Height</label>
-          <p>{profileDetails.height}</p>
+          <p>{profileDetails?.height || "Not set"}</p>
         </div>
         <div class="info-group">
           <label>Current Weight</label>
-          <p>{profileDetails.currentWeight}</p>
+          <p>{profileDetails?.currentWeight || "Not set"}</p>
         </div>
       </div>
       <div class="info-group">
         <label>Primary Goal</label>
-        <div class="goal-tag">{profileDetails.fitnessGoal}</div>
+        <div class="goal-tag">
+          {profileDetails?.fitnessGoal || "Not set"}
+        </div>
       </div>
     </div>
 

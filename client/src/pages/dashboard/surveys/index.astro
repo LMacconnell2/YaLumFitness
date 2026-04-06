@@ -1,15 +1,36 @@
 ---
+export const prerender = false;
 import DashboardLayout from '../../../layouts/DashboardLayout.astro';
 import SurveyManager from '../../../components/dashboard/SurveyManager.svelte';
+import SurveyHistory from '../../../components/dashboard/SurveyHistory.svelte';
 
-const { user } = Astro.locals;
-const cookie = Astro.request.headers.get("cookie") || "";
+const cookie = Astro.request.headers.get("cookie");
 
-// Mock data: In reality, fetch from http://localhost:3000/api/v1/surveys
-const surveyHistory = [
-  { id: '1', date: '2024-03-15', goal: 'Muscle Gain', weight: '185 lbs' },
-  { id: '2', date: '2024-01-10', goal: 'Weight Loss', weight: '210 lbs' },
-];
+let surveyHistory = [];
+let fetchError = false;
+
+if (cookie) {
+  try {
+    const res = await fetch("http://localhost:3000/api/v1/survey/", {
+      headers: { 
+        "cookie": cookie // Forward the browser's session cookie to Express
+      }
+    });
+    
+    if (res.ok) {
+      surveyHistory = await res.json();
+    } else if (res.status === 401) {
+       // If the backend says unauthorized, the cookie might be expired
+       return Astro.redirect('/login');
+    }
+  } catch (err) {
+    console.error("Connection to backend failed:", err);
+    fetchError = true;
+  }
+} else {
+  // No cookie found at all? Send them back to login
+  return Astro.redirect('/login');
+}
 ---
 
 <DashboardLayout title="My Surveys">
@@ -22,35 +43,7 @@ const surveyHistory = [
   </div>
 
   <section class="history-section">
-    <div class="content-card">
-      <h3>Assessment History</h3>
-      {surveyHistory.length > 0 ? (
-        <table class="survey-table">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Primary Goal</th>
-              <th>Weight at Time</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {surveyHistory.map(item => (
-              <tr>
-                <td>{new Date(item.date).toLocaleDateString()}</td>
-                <td><span class="badge">{item.goal}</span></td>
-                <td>{item.weight}</td>
-                <td><button class="text-btn">View Details</button></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <div class="empty-state">
-          <p>You haven't taken any surveys yet.</p>
-        </div>
-      )}
-    </div>
+    <SurveyHistory client:load history={surveyHistory} />
   </section>
 </DashboardLayout>
 

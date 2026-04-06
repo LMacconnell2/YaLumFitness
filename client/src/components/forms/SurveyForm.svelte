@@ -13,39 +13,32 @@
   });
 
   async function handleSubmit(e: SubmitEvent) {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      const res = await fetch("http://localhost:3000/api/v1/survey", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        credentials: "include",
-        body: JSON.stringify(formData)
-      });
+  try {
+    // Ensure this matches your plural/singular mounting in Express
+    const res = await fetch("http://localhost:3000/api/v1/survey", { 
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include", // Essential for Better-Auth cookies
+      body: JSON.stringify(formData)
+    });
 
-      if (!res.ok) {
-        const error = await res.json();
-        console.error("Error:", error);
-        return;
-      }
-
+    if (res.ok) {
       const data = await res.json();
-      console.log("Created survey:", data);
-
       show = false;
 
       if (isInitial) {
         window.location.href = "/dashboard";
       } else {
-        window.location.reload();
+        // This will trigger the Astro page to re-run its 'fetch' logic above
+        window.location.reload(); 
       }
-
-    } catch (err) {
-      console.error("Request failed:", err);
     }
+  } catch (err) {
+    console.error("Request failed:", err);
   }
+}
 </script>
 
 {#if show}
