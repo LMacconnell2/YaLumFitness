@@ -131,3 +131,7 @@ li::before { content: "→"; position: absolute; left: 0; color: var(--neon-gree
   
   .section { padding: 3rem 1rem; }
 }
+
+#benefits h2, #benefits li{
+  color: darkgray;
+}
