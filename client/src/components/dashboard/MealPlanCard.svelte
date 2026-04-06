@@ -3,8 +3,41 @@
   let showDetails = $state(false);
 
   async function makeDefault() {
-    // API call to set this plan as the active one
-    console.log("Setting default meal plan:", plan.id);
+    try {
+      const response = await fetch(`http://localhost:3000/api/v1/meals/${plan.id}`, {
+        method: "PUT",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ isDefault: true })
+      });
+
+      if (response.ok) {
+        window.location.reload();
+      } else {
+        const err = await response.json();
+        console.error("Server error:", err);
+      }
+    } catch (e) {
+      console.error("Failed to set default plan:", e);
+    }
+  }
+
+  async function deletePlan() {
+    try {
+      const response = await fetch(`http://localhost:3000/api/v1/meals/${plan.id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        window.location.reload();
+      } else {
+        const err = await response.json();
+        console.error("Server error:", err);
+      }
+    } catch (e) {
+      console.error("Failed to delete plan:", e);
+    }
   }
 </script>
 
@@ -18,14 +51,15 @@
       <span class="default-badge">Active</span>
     {/if}
   </div>
-  
+
   <p class="desc">{plan.description}</p>
-  
+
   <div class="card-footer">
     <button class="view-btn" onclick={() => showDetails = true}>View Details</button>
     {#if !plan.isDefault}
       <button class="set-btn" onclick={makeDefault}>Use This Plan</button>
     {/if}
+    <button class="delete-btn" onclick={deletePlan}>Delete</button>
   </div>
 </div>
 
@@ -36,19 +70,19 @@
       <h2>{plan.name}</h2>
       <span class="tag">{plan.calories} Calories</span>
     </header>
-    
+
     <div class="plan-details">
       <div class="meal-item">
-        <strong>Breakfast:</strong> Overnight Oats with Blueberries
+        <strong>Description:</strong> {plan.description}
       </div>
       <div class="meal-item">
-        <strong>Lunch:</strong> Grilled Chicken & Quinoa Salad
+        <strong>Daily Calories:</strong> {plan.calories} kcal
       </div>
       <div class="meal-item">
-        <strong>Dinner:</strong> Baked Salmon with Asparagus
+        <strong>Status:</strong> {plan.isDefault ? "Active Plan" : "Inactive"}
       </div>
     </div>
-    
+
     <button class="close-btn" onclick={() => showDetails = false}>Close</button>
   </div>
 </div>
