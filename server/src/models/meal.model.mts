@@ -5,36 +5,35 @@ import { ObjectId } from 'mongodb';
 import type { Filter } from 'mongodb';
 
 function buildMealFilter(query: any): Filter<Meal> {
+  const filter: Filter<Meal> = {};
   console.log(query)
-    const filter: Filter<Meal> = {};
+  // 1. Keyword Search (Searches through the names of food items in the meal)
+  if (query.q?.trim()) {
+    const safeSearch = query.q.trim().replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+    filter["foodItems.name"] = { $regex: safeSearch, $options: "i" };
+  }
 
-    // 1. Keyword Search (Searches through the names of food items in the meal)
-    if (query.q?.trim()) {
-        const safeSearch = query.q.trim().replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-        filter["foodItems.name"] = { $regex: safeSearch, $options: "i" };
-    }
+  // 2. Calorie Filtering (At Most)
+  if (query.maxCalories) {
+    filter["totalMacros.calories"] = { $lte: Number(query.maxCalories) };
+  }
 
-    // 2. Calorie Filtering (At Most)
-    if (query.maxCalories) {
-        filter["totalMacros.calories"] = { $lte: Number(query.maxCalories) };
-    }
+  // 3. Fat Filtering (At Most)
+  if (query.maxFats) {
+    filter["totalMacros.fats"] = { $lte: Number(query.maxFats) };
+  }
 
-    // 3. Fat Filtering (At Most)
-    if (query.maxFats) {
-        filter["totalMacros.fats"] = { $lte: Number(query.maxFats) };
-    }
+  // 4. Protein Filtering (At Least)
+  if (query.minProtein) {
+    filter["totalMacros.protein"] = { $gte: Number(query.minProtein) };
+  }
 
-    // 4. Protein Filtering (At Least)
-    if (query.minProtein) {
-        filter["totalMacros.protein"] = { $gte: Number(query.minProtein) };
-    }
-
-    // 5. Carbohydrate Filtering (At Least)
-    if (query.minCarbs) {
-        filter["totalMacros.carbs"] = { $gte: Number(query.minCarbs) };
-    }
-    console.log(filter);
-    return filter;
+  // 5. Carbohydrate Filtering (At Least)
+  if (query.minCarbs) {
+    filter["totalMacros.carbs"] = { $gte: Number(query.minCarbs) };
+  }
+  console.log(filter)
+  return filter;
 }
 
 async function getMealsByUserId(userId: string, date?: Date): Promise<Meal[] | null> {

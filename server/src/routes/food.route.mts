@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { ObjectId } from 'mongodb';
 import type { Food } from '../models/types.ts';
-import { addFood, getFoodById, getFoodByName } from '../models/food.model.mts';
+import { addFood, getAllFood, buildFoodFilter } from '../models/food.model.mts';
 
 const router: Router = Router();
 
@@ -40,6 +40,21 @@ router.post('/', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }
+});
+
+router.get('/search', async (req, res) => {
+  try {
+    console.log('GET api/meals/search')
+    console.log('Building Food Filter')
+    const filter = buildFoodFilter(req.query);  
+    console.log(`Filter: ${filter}`)
+    // Apply additional filters in-memory since getMealsByUserId only filters by date
+    const meals = await getAllFood(filter);
+    res.status(200).json(meals);
+  } catch (error) {
+    console.error('Error searching meals:', error);
+    res.status(500).json({ error: 'Failed to search meals' });
+  } 
 });
 
 export default router;
