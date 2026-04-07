@@ -37,17 +37,15 @@ async function getAllFood(filter: Filter<Food>): Promise<Food[]> {
   return data;
 }
 
-async function getFoodByName(name: String): Promise<Food[] | null> {
+async function getFoodByName(name: string): Promise<Food[]> {
   const data = await mongodb.getDb().collection<Food>('foods').find({
-    name: name
-  }).toArray()
+    name: { $regex: name, $options: 'i' }
+  }).limit(10).toArray();
   return data;
 }
 
 async function getFoodById(id: Object): Promise<Food | null> {
-  const data = await mongodb.getDb().collection<Food>('foods').findOne({
-    _id: id
-  })
+  const data = await mongodb.getDb().collection<Food>('foods').findOne({ _id: id });
   return data;
 }
 

@@ -1,37 +1,10 @@
-@import "./variables.css";
-@import "./header.css";
-
-
-
-body {
-  background-color: var(--primary-color);
-  color: var(--accent-color);
-}
-
-
-.auth-form {
-  background-color: var(--secondary-color);
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  max-width: 320px;
-  margin: 2rem auto;
-  padding: 1.5rem;
-  border: 1px solid var(--accent-color);
-  border-radius: 8px;
-
-  .auth-form input {
-    padding: 0.5rem;
-    border-radius: 4px;
-    border: 1px solid var(--accent-color);
-  }
-}
-.error {
-  color: var(--error-color);
-  font-size: 0.875rem;
-}
-
-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+:root {
+  --bg-dark: #0a0a0c;
+  --bg-card: #16161a;
+  --neon-green: #39ff14;
+  --neon-blue: #00f3ff;
+  --neon-pink: #ff00e6;
+  --text-main: #e0e0e0;
+  --text-dim: #a0a0a0;
+  --glass: rgba(22, 22, 26, 0.8);
 }

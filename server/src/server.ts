@@ -1,49 +1,48 @@
 import dotenv from "dotenv";
 import express from "express";
-import http from "http";
-import { connectDB } from './database/database.ts';
-import routes from './routes/index.mts'
-
+import { connectDB, closeDB } from "./database/database.ts";
+import router from "./routes/index.mts";
+import { auth } from "./services/auth.service.mts";
+import cors from "cors";
+import { toNodeHandler } from "better-auth/node";
 
 dotenv.config();
-const app = express();
-app.use(express.json());
-app.use('/api/v1/', routes);
 
-const HOST = "localhost";
+console.log("Checking API Key:", process.env.OPENAI_API_KEY ? "Found" : "NOT FOUND");
+
+const app = express();
 const PORT = process.env.PORT || 3000;
 
-async function bootstrap() {
-  await connectDB();
-  
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
-}
-bootstrap();
+// Await DB connection before anything else runs
+await connectDB();
 
+app.use(cors({
+    origin: process.env.CLIENT_URL || "http://localhost:4321",
+    credentials: true
+}));
 
+app.all("/api/auth/*path", toNodeHandler(auth));
 
-const server = http.createServer((req, res) => {
-  const { method, url } = req;
-  
-  console.log(`[${new Date().toISOString()}] ${method} ${url}`);
-  
-  // Route handling placeholder - replace with actual logic or router in the future
-  if (method === "GET" && url === "/") {
-    res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ message: "Welcome to my Node.js server!" }));
+app.use(express.json());
+app.use("/api/v1", router);
 
-  } else if (method === "GET" && url === "/health") {
-    res.writeHead(200, { "Content-Type": "application/json" });
-    
-    res.end(JSON.stringify({ status: "ok" }));
-  } else {
-    res.writeHead(404, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ error: "Route not found" }));
-  }
+app.get("/health", (req, res) => {
+    res.json({ status: "ok" });
 });
 
-server.listen(PORT, HOST, () => {
-  console.log(`Server running at http://${HOST}:${PORT}`);
+app.use((req, res) => {
+    res.status(404).json({ error: "Route not found" });
+});
+
+const server = app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
+});
+
+// Graceful shutdown
+process.on("SIGINT", async () => {
+    console.log("\nShutting down gracefully...");
+    server.close(async () => {
+        await closeDB();
+        process.exit(0);
+    });
 });

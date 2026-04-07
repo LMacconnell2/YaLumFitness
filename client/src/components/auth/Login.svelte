@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { authClient } from "../lib/auth-client.ts";
+  import { authClient } from "../../lib/auth-client.ts";
 
   let email = $state("");
   let password = $state("");

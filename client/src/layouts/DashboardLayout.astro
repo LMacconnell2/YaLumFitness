@@ -1,0 +1,40 @@
+---
+export const prerender = false;
+import BaseLayout from './Layout.astro';
+import Sidebar from '../components/dashboard/Sidebar.svelte';
+import '../css/dashboard.css';
+
+const { title } = Astro.props;
+---
+
+<BaseLayout title={title} isLoggedIn={true}>
+  <div class="dashboard-container">
+    <Sidebar client:load />
+
+    <main class="dashboard-content">
+      <slot />
+    </main>
+  </div>
+</BaseLayout>
+
+<style>
+  .dashboard-container {
+    display: grid;
+    /* This creates a 280px column for the sidebar and the rest for content */
+    grid-template-columns: 280px 1fr;
+    min-height: 100vh;
+  }
+
+  .dashboard-content {
+    padding: 2rem;
+    background: black;
+    width: 100%;
+  }
+
+  @media (max-width: 768px) {
+    .dashboard-container {
+      /* On mobile, stack them so the content takes full width */
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

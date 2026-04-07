@@ -1,0 +1,149 @@
+---
+export const prerender = false;
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+import WorkoutLogger from '../../components/dashboard/WorkoutLogger.svelte';
+const { user } = Astro.locals;
+
+const stats = [
+  { label: "Daily Calories", value: "1,850", target: "2,200", unit: "kcal", color: "blue" },
+  { label: "Workouts This Week", value: "3", target: "5", unit: "sessions", color: "green" },
+  { label: "Current Weight", value: "185", target: "175", unit: "lbs", color: "purple" },
+  { label: "Water Intake", value: "64", target: "100", unit: "oz", color: "cyan" }
+];
+---
+
+<DashboardLayout title="Dashboard Overview">
+  <section class="welcome-header">
+    <h1>Welcome back, <span class="neon-text">{user?.name?.split(' ')[0] || 'Athlete'}</span>! 👋</h1>
+    <p>Systems operational. Ready for today's session?</p>
+  </section>
+
+  <div class="stats-grid">
+    {stats.map((stat) => (
+      <div class="stat-card">
+        <span class="stat-label">{stat.label}</span>
+        <div class="stat-main">
+          <span class="stat-value">{stat.value}</span>
+          <span class="stat-unit">{stat.unit}</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div 
+            class={`progress-bar-fill ${stat.color}`} 
+            style={`width: ${(parseInt(stat.value.replace(',', '')) / parseInt(stat.target)) * 100}%`}
+          ></div>
+        </div>
+        <span class="stat-footer">Target: {stat.target} {stat.unit}</span>
+      </div>
+    ))}
+  </div>
+
+  <div class="dashboard-content-grid">
+    <div class="main-column">
+      <div class="content-card">
+        <h3>Today's Protocol</h3>
+        <div class="workout-preview">
+          <div class="workout-info">
+            <h4 class="neon-text-blue">Upper Body Power</h4>
+            <p>45 Minutes • Strength Training</p>
+          </div>
+          <WorkoutLogger client:load />
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h3>Recent History</h3>
+        <div class="empty-state">
+          <p>No data sequences detected in the last 7 days.</p>
+          <a href="/dashboard/workouts" class="neon-text">Initiate Log</a>
+        </div>
+      </div>
+    </div>
+
+    <aside class="side-column">
+      <div class="content-card">
+        <h3>Nutrition Metrics</h3>
+        <ul class="nutrition-list">
+          <li><span>Protein</span> <strong class="green-text">120g</strong></li>
+          <li><span>Carbs</span> <strong class="blue-text">210g</strong></li>
+          <li><span>Fat</span> <strong class="purple-text">65g</strong></li>
+        </ul>
+        <a href="/dashboard/meals" class="btn-text">Full Breakdown →</a>
+      </div>
+    </aside>
+  </div>
+</DashboardLayout>
+
+<style>
+  .welcome-header { margin-bottom: 2.5rem; }
+  .welcome-header h1 { font-size: 2rem; font-weight: 800; color: #fff; margin-bottom: 0.5rem; }
+  .welcome-header p { color: #a0a0a0; }
+
+  /* Stats Grid */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .stat-card {
+    background: #16161a;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #222;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+
+  .stat-label { font-size: 0.75rem; color: #888; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+  .stat-main { margin: 0.8rem 0; display: flex; align-items: baseline; gap: 4px; }
+  .stat-value { font-size: 1.8rem; font-weight: 800; color: #fff; }
+  .stat-unit { font-size: 0.9rem; color: #555; }
+
+  /* Neon Progress Bars */
+  .progress-bar-bg { height: 6px; background: #000; border-radius: 10px; margin-bottom: 0.8rem; overflow: hidden; }
+  .progress-bar-fill { height: 100%; border-radius: 10px; box-shadow: 0 0 10px currentColor; }
+  
+  .blue { background: #00f3ff; color: rgba(0, 243, 255, 0.5); }
+  .green { background: #39ff14; color: rgba(57, 255, 20, 0.5); }
+  .purple { background: #ff00e6; color: rgba(255, 0, 230, 0.5); }
+  .cyan { background: #00ffcc; color: rgba(0, 255, 204, 0.5); }
+  
+  .stat-footer { font-size: 0.75rem; color: #666; }
+
+  /* Content Cards */
+  .dashboard-content-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; }
+  .content-card { background: #16161a; padding: 1.5rem; border-radius: 16px; border: 1px solid #222; margin-bottom: 1.5rem; }
+  .content-card h3 { font-size: 1rem; color: #00f3ff; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.5rem; }
+
+  .workout-preview {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #000;
+    padding: 1.2rem;
+    border-radius: 12px;
+    border: 1px solid #333;
+  }
+
+  .workout-info h4 { margin-bottom: 0.25rem; font-weight: 700; }
+  .workout-info p { font-size: 0.85rem; color: #888; }
+
+  .nutrition-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid #222;
+    color: #ccc;
+  }
+  
+  .green-text { color: #39ff14; }
+  .blue-text { color: #00f3ff; }
+  .purple-text { color: #ff00e6; }
+
+  .btn-text { color: #00f3ff; text-decoration: none; font-size: 0.9rem; display: block; margin-top: 1rem; font-weight: 600; transition: 0.2s; }
+  .btn-text:hover { text-shadow: 0 0 8px #00f3ff; }
+
+  @media (max-width: 1024px) {
+    .dashboard-content-grid { grid-template-columns: 1fr; }
+  }
+</style>

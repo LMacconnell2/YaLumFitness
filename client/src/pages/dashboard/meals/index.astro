@@ -1,0 +1,116 @@
+---
+export const prerender = false;
+import DashboardLayout from '../../../layouts/DashboardLayout.astro';
+import MealPlanGenerator from '../../../components/dashboard/MealPlanGenerator.svelte';
+import MealPlanCard from '../../../components/dashboard/MealPlanCard.svelte';
+import MealManager from '../../../components/dashboard/MealManager.svelte';
+
+const cookie = Astro.request.headers.get("cookie");
+
+let meals = [];
+let surveys = [];
+let fetchError = false;
+
+if (cookie) {
+  try {
+    const [mealsRes, surveysRes] = await Promise.all([
+      fetch("http://localhost:3000/api/v1/meals", { headers: { cookie } }),
+      fetch("http://localhost:3000/api/v1/survey", { headers: { cookie } })
+    ]);
+
+    if (mealsRes.status === 401 || surveysRes.status === 401) {
+      return Astro.redirect('/login');
+    }
+
+    meals = mealsRes.ok ? await mealsRes.json() : [];
+    surveys = surveysRes.ok ? await surveysRes.json() : [];
+  } catch (err) {
+    console.error("Connection to backend failed:", err);
+    fetchError = true;
+  }
+} else {
+  return Astro.redirect('/login');
+}
+
+const mealPlans = await Promise.all(meals.map(async (meal: any, i: number) => {
+  const resolvedItems = await Promise.all(
+    (meal.foodItems ?? []).map(async (item: { foodId: string; servingNum: number }) => {
+      try {
+        const foodRes = await fetch(
+          `http://localhost:3000/api/v1/food/${item.foodId}`,
+          { headers: { cookie } }
+        );
+        const food = foodRes.ok ? await foodRes.json() : null;
+        return {
+          name: food?.name ?? 'Unknown food',
+          servingNum: item.servingNum,
+          servingUnit: food?.servingUnit ?? '',
+          calories: food ? Math.round(food.calories * item.servingNum) : 0,
+          protein: food ? Math.round(food.protein * item.servingNum) : 0,
+          carbs: food ? Math.round(food.carbs * item.servingNum) : 0,
+          fats: food ? Math.round(food.fats * item.servingNum) : 0,
+        };
+      } catch {
+        return { name: 'Unknown food', servingNum: item.servingNum, servingUnit: '', calories: 0, protein: 0, carbs: 0, fats: 0 };
+      }
+    })
+  );
+
+  return {
+    id: meal._id,
+    name: `Meal – ${new Date(meal.date).toLocaleDateString()} at ${meal.time}`,
+    isDefault: i === 0,
+    calories: meal.totalMacros?.calories ?? 0,
+    protein: meal.totalMacros?.protein ?? 0,
+    carbs: meal.totalMacros?.carbs ?? 0,
+    fats: meal.totalMacros?.fats ?? 0,
+    description: `${resolvedItems.length} items · ${meal.totalMacros?.calories ?? 0} kcal`,
+    foodItems: resolvedItems
+  };
+}));
+---
+
+<DashboardLayout title="Meal Planning">
+  <div class="page-header">
+    <div>
+      <h1>Meal Planning</h1>
+      <p>Fuel your body with AI-generated nutrition plans tailored to your goals.</p>
+    </div>
+    <MealPlanGenerator client:load {surveys} />
+  </div>
+
+  {fetchError && <p class="error">Could not load meals. Please try again later.</p>}
+
+  <div class="plans-grid">
+    {mealPlans.map(plan => (
+      <MealPlanCard client:load {plan} />
+    ))}
+  </div>
+
+  <div class="add-meal-row">
+    <MealManager client:load />
+  </div>
+</DashboardLayout>
+
+<style>
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid #222;
+    padding-bottom: 1.5rem;
+  }
+  .page-header h1 { font-size: 2rem; font-weight: 800; color: #fff; margin: 0; }
+  .plans-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+  .add-meal-row {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+  }
+  .error { color: #ef4444; font-size: 0.9rem; }
+</style>

@@ -1,10 +1,51 @@
 ---
-import Register from "../../components/Register.svelte";
+import Register from "../../components/auth/Register.svelte";
 import Layout from '../../layouts/Layout.astro';
-import Header from '../../components/Header.svelte';
 ---
-<Layout title="Register Page">
-    <Header client:load />
-    <h1>Register</h1>
-    <Register />
+<Layout title="Register | System Access">
+  <main class="auth-container">
+    <div class="header">
+      <h1>Initialize <span class="neon-text-cyan">Profile</span></h1>
+      <p class="subtitle">Establish your identity within the fitness neural network.</p>
+    </div>
+    <Register client:load />
+  </main>
 </Layout>
+
+<style>
+  .auth-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #09090b; /* Deep obsidian background */
+    padding: 2rem;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  h1 { 
+    font-size: 2.5rem; 
+    font-weight: 900; 
+    color: #fff; 
+    text-transform: uppercase; 
+    letter-spacing: 3px;
+    margin: 0;
+  }
+
+  .neon-text-cyan {
+    color: #00f3ff;
+    text-shadow: 0 0 15px rgba(0, 243, 255, 0.6);
+  }
+
+  .subtitle {
+    color: #555;
+    font-family: monospace;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+  }
+</style>
