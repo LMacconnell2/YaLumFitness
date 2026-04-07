@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { ObjectId } from 'mongodb';
 import type { Food } from '../models/types.ts';
-import { addFood, getAllFood, buildFoodFilter } from '../models/food.model.mts';
+import { addFood, getAllFood, getFoodByName, getFoodById, buildFoodFilter } from '../models/food.model.mts';
 
 const router: Router = Router();
 
